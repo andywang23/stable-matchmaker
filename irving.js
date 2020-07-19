@@ -4,11 +4,12 @@
 function stableRoomies(prefTable) {
   //if stableTable is falsy, then we failed to make stable matches in first phase
   //prompt user with option to randomly swap one set of preferences
-  const stableTable = firstPhase(prefTable);
-  if (!stableTable) return { error: 'Unstable Matches @ phase 1' };
-  const reducedTable = reduceStableTables(stableTable, prefTable);
+  const stableProposalTable = firstPhase(prefTable);
+  if (!stableProposalTable) return { error: 'Unstable Matches @ phase 1' };
+  const reducedTable = reduceStableTables(stableProposalTable, prefTable);
 
   console.log(reducedTable);
+  console.log(stableProposalTable);
 }
 
 //pretty much same logic as gale-shapley algo
