@@ -5,13 +5,11 @@ function stableRoomies(prefTable) {
   //if stableTable is falsy, then we failed to make stable matches in first phase
   //prompt user with option to randomly swap one set of preferences
   const stableProposalTable = getStableTable(prefTable);
+
   if (!stableProposalTable)
     return { error: 'Unstable Matches @ getStableTable' };
+
   const reducedPrefTable = reduceStableTables(stableProposalTable, prefTable);
-
-  // console.log(reducedPrefTable);
-  // console.log(stableProposalTable);
-
   const stableOutput = removeCycle(reducedPrefTable);
 
   return stableOutput
@@ -101,10 +99,11 @@ function reduceStableTables(proposalTable, preferenceTable) {
 function removeCycle(reducedPreference) {
   let reducedPref = { ...reducedPreference };
   let impossibleMatchCondition = false;
-  let cycleEntered;
+  let cycleEntered = true;
 
-  while (!impossibleMatchCondition && !cycleEntered) {
+  while (!impossibleMatchCondition && cycleEntered) {
     cycleEntered = false;
+
     for (const person in reducedPref) {
       if (reducedPref[person].length <= 1) continue;
       //if all pref lists have been cut down to 1 person
@@ -125,6 +124,7 @@ function removeCycle(reducedPreference) {
         }
 
         p.push(currentQLastPref);
+        if (q.includes(currentQLastPrefsSecondPref)) break;
         q.push(currentQLastPrefsSecondPref);
       }
 
@@ -133,12 +133,17 @@ function removeCycle(reducedPreference) {
         const personPrefList = reducedPref[person];
         const lastPrefsPrefList = reducedPref[personsLastPref];
 
-        personPrefList.splice(personPrefList.length - 1, 1);
+        personPrefList.splice(personPrefList.indexOf(personsLastPref), 1);
         lastPrefsPrefList.splice(lastPrefsPrefList.indexOf(person), 1);
 
         if (!personPrefList.length || !lastPrefsPrefList.length)
           impossibleMatchCondition = true;
       });
+
+      //if we hit a loop, we need to start from the top of the table
+      //e.g. if we just looked at person 1, but person 1 still has
+      //multiple preferences, then we need to examine his list again
+      break;
     }
   }
 
@@ -152,7 +157,7 @@ const brokenInputWiki = {
   d: ['a', 'b', 'c'],
 };
 
-// console.log(firstPhase(brokenInputWiki));
+// console.log(stableRoomies(brokenInputWiki));
 
 const validInputIrving = {
   1: ['4', '6', '2', '5', '3'],
@@ -163,9 +168,44 @@ const validInputIrving = {
   6: ['5', '1', '4', '2', '3'],
 };
 
-console.log(stableRoomies(validInputIrving));
+// console.log(stableRoomies(validInputIrving));
 
-const merryAlgoristmasValid = {
+const brokenInputIrving = {
+  1: ['2', '6', '4', '3', '5'],
+  2: ['3', '5', '1', '6', '4'],
+  3: ['1', '6', '2', '5', '4'],
+  4: ['5', '2', '3', '6', '1'],
+  5: ['6', '1', '3', '4', '2'],
+  6: ['4', '2', '5', '1', '3'],
+};
+
+// console.log(stableRoomies(brokenInputIrving));
+
+const validInputWiki = {
+  1: ['3', '4', '2', '6', '5'],
+  2: ['6', '5', '4', '1', '3'],
+  3: ['2', '4', '5', '1', '6'],
+  4: ['5', '2', '3', '6', '1'],
+  5: ['3', '1', '2', '4', '6'],
+  6: ['5', '1', '3', '4', '2'],
+};
+
+// console.log(stableRoomies(validInputWiki));
+
+const validInputIrving8 = {
+  1: ['2', '5', '4', '6', '7', '8', '3'],
+  2: ['3', '6', '1', '7', '8', '5', '4'],
+  3: ['4', '7', '2', '8', '5', '6', '1'],
+  4: ['1', '8', '3', '5', '6', '7', '2'],
+  5: ['6', '1', '8', '2', '3', '4', '7'],
+  6: ['7', '2', '5', '3', '4', '1', '8'],
+  7: ['8', '3', '6', '4', '1', '2', '5'],
+  8: ['5', '4', '7', '1', '2', '3', '6'],
+};
+
+console.log(stableRoomies(validInputIrving8));
+
+const validMerryAlgoristmas = {
   Ralph: ['Penny', 'Boris', 'Oliver', 'Tammy', 'Ginny'],
   Penny: ['Oliver', 'Ginny', 'Ralph', 'Boris', 'Tammy'],
   Boris: ['Oliver', 'Tammy', 'Penny', 'Ralph', 'Ginny'],
@@ -174,6 +214,4 @@ const merryAlgoristmasValid = {
   Tammy: ['Penny', 'Ralph', 'Ginny', 'Boris', 'Oliver'],
 };
 
-// console.log(stableRoomies(merryAlgoristmasValid));
-
-console.log(stableRoomies(merryAlgoristmasValid));
+// console.log(stableRoomies(validMerryAlgoristmas));
