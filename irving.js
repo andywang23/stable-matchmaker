@@ -4,17 +4,24 @@
 function stableRoomies(prefTable) {
   //if stableTable is falsy, then we failed to make stable matches in first phase
   //prompt user with option to randomly swap one set of preferences
-  const stableProposalTable = firstPhase(prefTable);
-  if (!stableProposalTable) return { error: 'Unstable Matches @ phase 1' };
-  const reducedTable = reduceStableTables(stableProposalTable, prefTable);
+  const stableProposalTable = getStableTable(prefTable);
+  if (!stableProposalTable)
+    return { error: 'Unstable Matches @ getStableTable' };
+  const reducedPrefTable = reduceStableTables(stableProposalTable, prefTable);
 
-  console.log(reducedTable);
-  console.log(stableProposalTable);
+  // console.log(reducedPrefTable);
+  // console.log(stableProposalTable);
+
+  const stableOutput = removeCycle(reducedPrefTable);
+
+  return stableOutput
+    ? stableOutput
+    : { error: 'Unstable Matches @ removeCycle' };
 }
 
 //pretty much same logic as gale-shapley algo
-function firstPhase(table) {
-  let inputTable = { ...table };
+function getStableTable(prefTable) {
+  let inputTable = { ...prefTable };
 
   const proposalTable = {};
   //if someone is rejected by all others, then it's impossible to have stable matches
@@ -52,13 +59,13 @@ function firstPhase(table) {
   return impossibleMatchCondition ? false : proposalTable;
 }
 
+//based on proposal table: for each person, we will adjust
+//their preference table such that every other person
+//lower ranked than their current tentative partner will be removed;
+//deleted person will then remove whoever just removed them from their list
+
 function reduceStableTables(proposalTable, preferenceTable) {
   let prefTable = { ...preferenceTable };
-
-  //based on proposal table: for each person, we will adjust
-  //their preference table such that every other person
-  //lower ranked than their current tentative partner will be removed;
-  //deleted person will then remove whoever just removed them from their list
 
   for (const person in proposalTable) {
     const currPartner = proposalTable[person];
@@ -77,18 +84,77 @@ function reduceStableTables(proposalTable, preferenceTable) {
   return prefTable;
 }
 
-// function phaseTwo()
+//cycle through stable pref list
+//for everyone with multiple preferences left,
+//create two arrays - p & q
+//q[0] === p[0]'s second preference
+//p[1] === q[0]'s last preference
+//q[1] === p[1]'s second preference and so on
+//until one person shows up twice in an array
+//then eliminate all second to last pairings
 
-const brokenInput = {
+//if anyone's pref list becomes empty, no
+//stable pairings exist
+
+//otherwise, stop loop when everyone has one pair
+
+function removeCycle(reducedPreference) {
+  let reducedPref = { ...reducedPreference };
+  let impossibleMatchCondition = false;
+  let cycleEntered;
+
+  while (!impossibleMatchCondition && !cycleEntered) {
+    cycleEntered = false;
+    for (const person in reducedPref) {
+      if (reducedPref[person].length <= 1) continue;
+      //if all pref lists have been cut down to 1 person
+      //then cycleEntered will remain false and loop will exit
+      cycleEntered = true;
+
+      const p = [person];
+      const q = [reducedPref[person][1]];
+
+      while (true) {
+        const currentQ = q[q.length - 1];
+        const currentQLastPref = [...reducedPref[currentQ]].pop();
+        const currentQLastPrefsSecondPref = reducedPref[currentQLastPref][1];
+
+        if (p.includes(currentQLastPref)) {
+          p.push(currentQLastPref);
+          break;
+        }
+
+        p.push(currentQLastPref);
+        q.push(currentQLastPrefsSecondPref);
+      }
+
+      q.forEach((person, idx) => {
+        const personsLastPref = p[idx + 1];
+        const personPrefList = reducedPref[person];
+        const lastPrefsPrefList = reducedPref[personsLastPref];
+
+        personPrefList.splice(personPrefList.length - 1, 1);
+        lastPrefsPrefList.splice(lastPrefsPrefList.indexOf(person), 1);
+
+        if (!personPrefList.length || !lastPrefsPrefList.length)
+          impossibleMatchCondition = true;
+      });
+    }
+  }
+
+  return impossibleMatchCondition ? false : reducedPref;
+}
+
+const brokenInputWiki = {
   a: ['b', 'c', 'd'],
   b: ['c', 'a', 'd'],
   c: ['a', 'b', 'd'],
   d: ['a', 'b', 'c'],
 };
 
-// console.log(firstPhase(brokenInput));
+// console.log(firstPhase(brokenInputWiki));
 
-const validInput = {
+const validInputIrving = {
   1: ['4', '6', '2', '5', '3'],
   2: ['6', '3', '5', '1', '4'],
   3: ['4', '5', '1', '6', '2'],
@@ -97,4 +163,17 @@ const validInput = {
   6: ['5', '1', '4', '2', '3'],
 };
 
-console.log(stableRoomies(validInput));
+console.log(stableRoomies(validInputIrving));
+
+const merryAlgoristmasValid = {
+  Ralph: ['Penny', 'Boris', 'Oliver', 'Tammy', 'Ginny'],
+  Penny: ['Oliver', 'Ginny', 'Ralph', 'Boris', 'Tammy'],
+  Boris: ['Oliver', 'Tammy', 'Penny', 'Ralph', 'Ginny'],
+  Ginny: ['Ralph', 'Boris', 'Tammy', 'Penny', 'Oliver'],
+  Oliver: ['Ralph', 'Penny', 'Ginny', 'Tammy', 'Boris'],
+  Tammy: ['Penny', 'Ralph', 'Ginny', 'Boris', 'Oliver'],
+};
+
+// console.log(stableRoomies(merryAlgoristmasValid));
+
+console.log(stableRoomies(merryAlgoristmasValid));
