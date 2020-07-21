@@ -1,5 +1,5 @@
 {
-  "name": "matchmaker",
+  "name": "stable-matchmaker",
   "version": "1.0.0",
   "description": "",
   "main": "gale-shapley.js",
@@ -7,5 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andy Wang",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.19"
+  }
 }
