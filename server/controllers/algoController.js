@@ -13,7 +13,7 @@ const forceMatch = require(path.resolve(
 const algoController = {};
 
 algoController.stableMarriage = (req, res, next) => {
-  const prefTableInput = req.body;
+  const prefTableInput = req.body.prefTable;
   const matchTable = stableMarriage(
     prefTableInput.malePref,
     prefTableInput.femalePref
@@ -26,23 +26,28 @@ algoController.stableMarriage = (req, res, next) => {
 };
 
 algoController.stableRoomies = (req, res, next) => {
-  const prefTableInput = req.body;
+  const prefTableInput = req.body.prefTable;
   const matchTable = stableRoomies(prefTableInput);
 
   res.locals.algoUsed = 'stableRoomies';
   res.locals.result = matchTable;
 
-  return next();
+  //algo will spit out object if stable match is found
+  return typeof res.locals.result === 'string'
+    ? next({ message: 'Unable to find stable match' })
+    : next();
 };
 
 algoController.forceMatch = (req, res, next) => {
-  const prefTableInput = req.body;
-  const matchTable = stableRoomies(prefTableInput);
+  const prefTableInput = req.body.prefTable;
+  const matchTable = forceMatch(prefTableInput);
 
-  res.locals.algoUsed = 'stableRoomies - forced Match';
+  res.locals.algoUsed = 'stableRoomies';
   res.locals.result = matchTable;
 
-  return next();
+  return typeof res.locals.result === 'string'
+    ? next({ message: 'Unable to find stable match' })
+    : next();
 };
 
 module.exports = algoController;

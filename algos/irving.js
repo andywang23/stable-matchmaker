@@ -165,7 +165,7 @@ const brokenInputWiki = {
   d: ['a', 'b', 'c'],
 };
 
-console.log(stableRoomies(brokenInputWiki));
+// console.log(stableRoomies(brokenInputWiki));
 
 const validInputIrving = {
   1: ['4', '6', '2', '5', '3'],
@@ -176,7 +176,7 @@ const validInputIrving = {
   6: ['5', '1', '4', '2', '3'],
 };
 
-console.log(stableRoomies(validInputIrving));
+// console.log(stableRoomies(validInputIrving));
 
 const brokenInputIrving = {
   1: ['2', '6', '4', '3', '5'],
@@ -187,7 +187,7 @@ const brokenInputIrving = {
   6: ['4', '2', '5', '1', '3'],
 };
 
-console.log(stableRoomies(brokenInputIrving));
+// console.log(stableRoomies(brokenInputIrving));
 
 const validInputWiki = {
   1: ['3', '4', '2', '6', '5'],
@@ -198,7 +198,7 @@ const validInputWiki = {
   6: ['5', '1', '3', '4', '2'],
 };
 
-console.log(stableRoomies(validInputWiki));
+// console.log(stableRoomies(validInputWiki));
 
 const validInputIrving8 = {
   1: ['2', '5', '4', '6', '7', '8', '3'],
@@ -211,7 +211,7 @@ const validInputIrving8 = {
   8: ['5', '4', '7', '1', '2', '3', '6'],
 };
 
-console.log(stableRoomies(validInputIrving8));
+// console.log(stableRoomies(validInputIrving8));
 
 // const validInputIrvingArr = [
 //   ['2', '5', '4', '6', '7', '8', '3'],
@@ -235,4 +235,6 @@ const validMerryAlgoristmas = {
   Tammy: ['Penny', 'Ralph', 'Ginny', 'Boris', 'Oliver'],
 };
 
-console.log(stableRoomies(validMerryAlgoristmas));
+// console.log(stableRoomies(validMerryAlgoristmas));
+
+module.exports = stableRoomies;

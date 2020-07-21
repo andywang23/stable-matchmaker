@@ -1,7 +1,12 @@
+const cloneDeep = require('lodash/cloneDeep');
+
 //input will be two objects - male and female preference tables
 //keys will be individual names and values will be rank-ordered preference arrays
 
-function stableMarriage(malePref, femalePref) {
+function stableMarriage(malePreference, femalePreference) {
+  const malePref = cloneDeep(malePreference);
+  const femalePref = cloneDeep(femalePreference);
+
   if (Object.keys(malePref).length !== Object.keys(femalePref).length)
     return Error;
 
@@ -54,8 +59,9 @@ const testFemales = {
   w3: ['m4', 'm1', 'm2', 'm3'],
   w4: ['m3', 'm2', 'm1', 'm4'],
 };
+// console.log(JSON.stringify(testFemales));
 
-console.log(stableMarriage(testMales, testFemales));
+// console.log(stableMarriage(testMales, testFemales));
 
 const testMales2 = {
   a: ['y', 'x', 'z'],
@@ -69,4 +75,6 @@ const testFemales2 = {
   z: ['a', 'c', 'b'],
 };
 
-console.log(stableMarriage(testMales2, testFemales2));
+// console.log(stableMarriage(testMales2, testFemales2));
+
+module.exports = stableMarriage;

@@ -9,7 +9,7 @@
 const cloneDeep = require('lodash/cloneDeep');
 
 const testTable = createPrefTable(32);
-console.log('forceMatch/', forceMatch(testTable));
+// console.log('forceMatch/', forceMatch(testTable));
 
 function forceMatch(preferenceList) {
   const prefList = cloneDeep(preferenceList);
@@ -271,3 +271,5 @@ function removeCycle(reducedPreference) {
 
   return impossibleMatchCondition ? false : reducedPref;
 }
+
+module.exports = forceMatch;

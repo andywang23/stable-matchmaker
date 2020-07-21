@@ -25,18 +25,31 @@ dbController.addMarriageGroup = (req, res, next) => {
   );
 };
 
-//TODO: DO QUERY FIND FOR ADMIN _ID
-dbController.addRoomieGroup = (req, res, next) => {
+//TODO: FIX CONSOLE LOGS
+dbController.addRoomieGroup = async (req, res, next) => {
   //admin creates group with their name, groupName, and array of candidate names
 
   const { groupName, admin, names } = req.body;
+  let adminID;
+  try {
+    await Admin.findOne({ username: admin }, (err, data) => {
+      if (data) adminID = data._id;
+      else throw Error('invalid query in addRoomiesGroup findOne');
+    });
 
-  RoomieGroup.create({ groupName, names }, (err, data) => {
-    // if (err) return next({ log: 'invalid creation query in addRoomieGroup' });
-    // return next();
-    if (data) console.log('success');
-    else console.log(err);
-  });
+    await RoomieGroup.create(
+      { groupName, names, admin: adminID },
+      (err, data) => {
+        // if (err) return next({ log: 'invalid creation query in addRoomieGroup' });
+        // return next();
+        if (data) console.log('success');
+        console.log(err);
+        // else throw Error('invalid query in addRoomiesGroup create');
+      }
+    );
+  } catch {
+    return next({ log: 'invalid query in addRoomieGroup' });
+  }
 };
 
 //TO COMPLETE
@@ -87,7 +100,7 @@ dbController.addAdmin = (req, res, next) => {
 };
 
 dbController.addResult = (req, res, next) => {
-  const result = res.locals.result;
+  const result = JSON.stringify(res.locals.result);
   const algoUsed = res.locals.algoUsed;
 
   const groupName = req.body.groupName;
@@ -114,17 +127,24 @@ module.exports = dbController;
 const sampleRoomieGroup = {
   body: {
     groupName: 'testGroup',
-    admin: '5f1737d7419a0a5cc8c399b7',
+    admin: 'Andy',
     names: ['Kirsten', 'Milan', 'Michael', 'Marina'],
   },
 };
 
 // dbController.addRoomieGroup(sampleRoomieGroup);
 
-dbController.addRoomiePrefList({
+// dbController.addRoomiePrefList({
+//   body: {
+// groupName: 'testGroup',
+// personName: 'Michael',
+// prefArray: ['Kirsten', 'Milan', 'Marina'],
+//   },
+// });
+
+dbController.addAdmin({
   body: {
-    groupName: 'testGroup',
-    personName: 'Michael',
-    prefArray: ['Kirsten', 'Milan', 'Marina'],
+    username: 'Andy-Encoded',
+    password: 'mynameisencoded',
   },
 });
