@@ -39,16 +39,17 @@ module.exports = {
      * to localhost:3000/api/* (where our Express server is running)
      */
     proxy: {
-      '/api/**': {
+      '/algos': {
         target: 'http://localhost:3000/',
         secure: false,
       },
-      '/assets/**': {
+      '/api/groups': {
         target: 'http://localhost:3000/',
         secure: false,
       },
     },
   },
+  // target: 'node',
   module: {
     rules: [
       {
@@ -65,6 +66,15 @@ module.exports = {
         test: /.(css|scss)$/,
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {},
+          },
+        ],
       },
     ],
   },

@@ -29,16 +29,16 @@ const marriageGroupSchema = new Schema({
 const MarriageGroup = mongoose.model('marriage group', marriageGroupSchema);
 
 const roomieGroupSchema = new Schema({
-  groupName: { type: String, required: true },
+  groupName: { type: String, required: true, unique: true },
   names: { type: [String], required: true },
   prefTable: { type: String, required: true, default: '{}' },
   admin: { type: Schema.Types.ObjectId, required: true },
-  result: { type: String },
+  result: { type: String, default: '{}' },
 });
 const RoomieGroup = mongoose.model('roomie group', roomieGroupSchema);
 
 const adminSchema = new Schema({
-  username: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   groupsCreated: { type: [Schema.Types.ObjectId], default: [] },
 });

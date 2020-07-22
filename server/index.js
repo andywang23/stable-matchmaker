@@ -1,14 +1,18 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 3000;
 
 const algoRouter = require('./routes/algos');
+const apiRouter = require('./routes/api');
 
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/algos', algoRouter);
+app.use('/api', apiRouter);
 
 //404 & Error Handling ---------------------------------------------
 app.use((req, res) => res.sendStatus(404));

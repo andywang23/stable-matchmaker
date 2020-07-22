@@ -31,3 +31,11 @@ function shuffleArray(arr) {
 function swap(arr, idx1, idx2) {
   [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
 }
+
+console.log(
+  JSON.stringify({
+    groupName: 'firstGroup',
+    personName: 'andy',
+    prefArray: ['bob', 'yolo', 'swag'],
+  })
+);

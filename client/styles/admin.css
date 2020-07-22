@@ -1,0 +1,22 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  background-size: cover;
+  background-image: url('../assets/bg-01.jpg');
+}
+
+.login-form {
+  background: white;
+  width: 960px;
+  overflow: hidden;
+  display: flex;
+  padding: 177px 130px 33px 95px;
+  border-radius: 10px;
+}
