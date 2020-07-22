@@ -65,7 +65,6 @@ dbController.addRoomieGroup = (req, res, next) => {
 //TO COMPLETE
 dbController.addMarriagePrefList = async (req, res, next) => {
   //first detect if user is in proposer or proposee group
-
   const { groupName } = req.body;
   let correctTable = null;
 
@@ -84,7 +83,6 @@ dbController.addRoomiePrefList = async (req, res, next) => {
       prefTable = JSON.parse(data.prefTable);
       prefTable[personName] = prefArray;
     }).exec();
-
     await RoomieGroup.findOneAndUpdate(
       { groupName },
       { prefTable: JSON.stringify(prefTable) },
@@ -93,7 +91,6 @@ dbController.addRoomiePrefList = async (req, res, next) => {
           return next({ log: 'invalid update query in addRoomiePrefList' });
       }
     ).exec();
-
     return next();
   } catch {
     return next({ log: 'invalid find query in addRoomiePrefList' });
@@ -102,7 +99,6 @@ dbController.addRoomiePrefList = async (req, res, next) => {
 
 dbController.addAdmin = (req, res, next) => {
   const { username, password } = req.body;
-
   Admin.create({ username, password }, (err, data) => {
     if (err) return next({ log: 'invalid find query in addAdmin' });
     // return console.log(err);
@@ -112,7 +108,6 @@ dbController.addAdmin = (req, res, next) => {
 dbController.addResult = (req, res, next) => {
   const result = JSON.stringify(res.locals.result);
   const algoUsed = res.locals.algoUsed;
-
   const groupName = req.body.groupName;
 
   if (algoUsed === 'stableRoomies') {
@@ -132,38 +127,29 @@ dbController.addResult = (req, res, next) => {
   }
 };
 
-dbController.getGroups = async (req, res, next) => {
+dbController.getGroups = (req, res, next) => {
   const username = req.params.username;
   let groupIDs = [];
   let groupNames = [];
 
-  await Admin.findOne({ username }, (err, data) => {
+  Admin.findOne({ username }, (err, data) => {
     if (err || !data) return next({ log: 'invalid find query in getGroups' });
     groupIDs = data.groupsCreated;
-  }).exec();
 
-  if (groupIDs.length) {
-    for (let i = 0; i < groupIDs.length; i++) {
-      const groupID = groupIDs[i];
-      await RoomieGroup.findOne({ _id: groupID }, (err, data) => {
-        if (err || !data)
+    RoomieGroup.find()
+      .where('_id')
+      .in(groupIDs)
+      .exec((err, records) => {
+        if (err || !records)
           return next({ log: 'invalid find query in getGroups' });
-        groupNames.push(data.groupName);
-      }).exec();
-    }
-  }
-
-  res.locals.groupsCreated = groupNames;
-  return next();
+        records.forEach((record) => groupNames.push(record.groupName));
+        res.locals.groupsCreated = groupNames;
+        return next();
+      });
+  });
 };
 
 dbController.getGroupStatus = (req, res, next) => {
-  //send back 3 different statuses:
-  //1: request forms not all filled out (compare names array length to prefTable.keys.length), return
-  //filled out pref lists and people still missing
-  //2: request forms all submitted, ready to run through algorithm (run through force match first)
-  //3: results to be displayed, return data.result object
-
   const groupName = req.params.groupname;
 
   RoomieGroup.findOne({ groupName }, (err, data) => {
@@ -173,29 +159,58 @@ dbController.getGroupStatus = (req, res, next) => {
     const submittedPeopleArr = Object.keys(prefTable);
     const numSubmittedResults = submittedPeopleArr.length;
     const result = JSON.parse(data.result);
-
     let resultsGenerated = Object.keys(result).length ? true : false;
 
     if (resultsGenerated) {
       res.locals.status = 'results';
       res.locals.results = result;
-    }
-
-    if (numSubmittedResults < names.length) {
+    } else if (numSubmittedResults < names.length) {
       const missing = names.filter(
         (name) => !submittedPeopleArr.includes(name)
       );
-
       res.locals.status = 'missing';
       res.locals.missing = missing;
       res.locals.submittedPrefList = prefTable;
-    }
-
-    if (numSubmittedResults === names.length && !resultsGenerated)
+    } else if (numSubmittedResults === names.length && !resultsGenerated) {
       res.locals.status = 'algoReady';
-
+      res.locals.groupName = data.groupName;
+      res.locals.prefList = prefTable;
+    }
     return next();
   });
+};
+
+dbController.getGroupStatusbyID = (req, res, next) => {
+  const groupID = req.params.groupid;
+  res.locals.groupName = '';
+  if (groupID.length === 24) {
+    RoomieGroup.findOne({ _id: groupID }, (err, data) => {
+      if (err) return next({ log: 'invalid query in getGroupName' });
+      if (data) {
+        const { names } = data;
+        const prefTable = JSON.parse(data.prefTable);
+        const submittedPeopleArr = Object.keys(prefTable);
+        const numSubmittedResults = submittedPeopleArr.length;
+        const result = JSON.parse(data.result);
+        let resultsGenerated = Object.keys(result).length ? true : false;
+        res.locals.groupName = data.groupName;
+
+        if (resultsGenerated) {
+          res.locals.status = 'results';
+          res.locals.results = result;
+        } else if (numSubmittedResults < names.length) {
+          const missing = names.filter(
+            (name) => !submittedPeopleArr.includes(name)
+          );
+          res.locals.status = 'missing';
+          res.locals.missing = missing;
+        } else if (numSubmittedResults === names.length && !resultsGenerated) {
+          res.locals.status = 'algoReady';
+        }
+        return next();
+      } else return next();
+    });
+  } else return next();
 };
 
 module.exports = dbController;

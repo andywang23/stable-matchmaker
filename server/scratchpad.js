@@ -34,8 +34,9 @@ function swap(arr, idx1, idx2) {
 
 console.log(
   JSON.stringify({
-    groupName: 'firstGroup',
-    personName: 'andy',
-    prefArray: ['bob', 'yolo', 'swag'],
+    andy: ['bob', 'hello', 'there'],
+    bob: ['andy', 'hello', 'there'],
+    hello: ['andy', 'bob', 'there'],
+    there: ['andy', 'hello', 'bob'],
   })
 );

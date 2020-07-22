@@ -39,6 +39,7 @@ algoController.stableRoomies = (req, res, next) => {
 };
 
 algoController.forceMatch = (req, res, next) => {
+  console.log(req.body);
   const prefTableInput = req.body.prefTable;
   const matchTable = forceMatch(prefTableInput);
 

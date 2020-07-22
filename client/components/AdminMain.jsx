@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useState, useEffect } from 'react';
 import { fromPairs } from 'lodash';
+import GroupStatus from './GroupStatus';
 
 const AdminMain = (props) => {
   const { userName } = props;
@@ -11,20 +12,14 @@ const AdminMain = (props) => {
   const [errorMsg, setErrorMsg] = useState('');
   const [groupStatus, setGroupStatus] = useState('');
 
-  useEffect(() => {
-    async function getGroups() {
-      const response = await fetch(`/api/groups/${userName}`);
-      const parsedRes = await response.json();
-      setGroups(parsedRes);
-    }
-    getGroups();
-  }, []);
-
   //should refactor to custom hook?
+  //TO DO: need to account for duplicate names and spaces!
   function handleSubmitPerson(e) {
     e.preventDefault();
-    let newPerson = document.querySelector('#personName').value;
+    const textForm = document.querySelector('#personName');
+    let newPerson = textForm.value;
     setPeople(people.concat([newPerson]));
+    textForm.value = '';
   }
 
   async function handleSubmitGroup(e) {
@@ -46,29 +41,11 @@ const AdminMain = (props) => {
     setGroupName(e.target.value);
   }
 
-  async function handleSelectChange(e) {
-    console.log('in handle select');
-
-    const response = await fetch(`/api/groupstatus/${e.target.value}`);
-    const parsedRes = await response.json();
-    setGroupStatus(parsedRes.status);
-
-    console.log(parsedRes);
-  }
-
   return (
     <div>
       Hello, {userName}
       <br />
-      See Group Status
-      <br />
-      <select name="groups" id="groupSelector" onChange={handleSelectChange}>
-        <option value="">Choose Available Groups</option>
-        {groups.map((group) => (
-          <option value={group}>{group}</option>
-        ))}
-      </select>
-      <br />
+      <GroupStatus userName={userName} />
       Create Group
       <br />
       <label htmlFor="groupName">Group Name</label>

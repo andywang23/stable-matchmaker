@@ -7,12 +7,16 @@ const port = process.env.PORT || 3000;
 
 const algoRouter = require('./routes/algos');
 const apiRouter = require('./routes/api');
+const authRouter = require('./routes/auth');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/assets', express.static(path.join(__dirname, '../client/assets')));
+app.use('/scripts', express.static(path.join(__dirname, '../client/scripts')));
 app.use('/algos', algoRouter);
 app.use('/api', apiRouter);
+app.use('/auth', authRouter);
 
 //404 & Error Handling ---------------------------------------------
 app.use((req, res) => res.sendStatus(404));

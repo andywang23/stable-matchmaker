@@ -23,4 +23,13 @@ router.get(
   }
 );
 
+router.get(
+  '/groupname/:groupid',
+  dbController.getGroupStatusbyID,
+  (req, res) => {
+    console.log(res.locals);
+    return res.status(200).json(res.locals);
+  }
+);
+
 module.exports = router;
