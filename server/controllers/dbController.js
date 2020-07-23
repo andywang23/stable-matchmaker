@@ -98,8 +98,12 @@ dbController.addRoomiePrefList = async (req, res, next) => {
 dbController.addAdmin = (req, res, next) => {
   const { username, password } = req.body;
   Admin.create({ username, password }, (err, data) => {
-    if (err) return next({ log: 'invalid find query in addAdmin' });
-    // return console.log(err);
+    if (err) {
+      res.locals.msg = 'Username already exists';
+      return next({ log: 'invalid find query in addAdmin' });
+    }
+    res.locals.msg = 'Admin created!';
+    return next();
   });
 };
 
@@ -161,17 +165,20 @@ dbController.getGroupStatus = (req, res, next) => {
 
     if (resultsGenerated) {
       res.locals.status = 'results';
+      res.locals.id = data._id;
       res.locals.results = result;
     } else if (numSubmittedResults < names.length) {
       const missing = names.filter(
         (name) => !submittedPeopleArr.includes(name)
       );
       res.locals.status = 'missing';
+      res.locals.id = data._id;
       res.locals.names = names;
       res.locals.missing = missing;
       res.locals.submittedPrefList = prefTable;
     } else if (numSubmittedResults === names.length && !resultsGenerated) {
       res.locals.status = 'algoReady';
+      res.locals.id = data._id;
       res.locals.groupName = data.groupName;
       res.locals.prefList = prefTable;
     }

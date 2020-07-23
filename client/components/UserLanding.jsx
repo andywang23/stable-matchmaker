@@ -105,8 +105,8 @@ const UserLanding = (props) => {
   return (
     <div className="user-landing">
       <h1>Welcome to the Ultimate Matchmaker</h1>
-      <form onSubmit={verifyGroup}>
-        <label htmlFor="groupIDForm">Input Group ID </label>
+      <label htmlFor="groupIDForm">Input Group ID </label>
+      <form id="groupIDVerification" onSubmit={verifyGroup}>
         <input id="groupIDForm" name="groupIDForm"></input>
       </form>
       {groupVerificationMsg()}

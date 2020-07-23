@@ -8,7 +8,7 @@ router.get('/groups/:username', dbController.getGroups, (req, res) => {
 });
 
 router.post('/groups', dbController.addRoomieGroup, (req, res) => {
-  return res.status(200).send('successful addition of group');
+  return res.status(200).json('successful addition of group');
 });
 
 router.patch('/groups', dbController.addRoomiePrefList, (req, res) => {

@@ -87,7 +87,6 @@ td {
   border: 2px solid #d9d9e9;
   border: none;
   text-align: center;
-  font-family: 'Georgia', serif;
   font-size: 28px;
 }
 
@@ -129,7 +128,6 @@ td {
 }
 
 .list-wrapper {
-  border-radius: 4px;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
 }
 
@@ -205,6 +203,10 @@ main {
   visibility: hidden;
 }
 
+input:focus {
+  outline: none;
+}
+
 .main-app-container,
 .admin-login,
 .admin-dashboard,
@@ -225,7 +227,7 @@ main {
 }
 
 .admin-login {
-  height: 350px;
+  height: 370px;
 }
 
 .role-btn-container {
@@ -234,26 +236,47 @@ main {
   justify-content: space-around;
 }
 
+.role-btn-container button {
+  width: 155px;
+}
+
 .admin-dashboard {
   height: fit-content;
   min-height: 300px;
 }
 
 .username,
+.password,
+#personName,
+#groupName,
+#groupIDForm {
+  color: rgb(38, 38, 38);
+  border-radius: 8px;
+  padding: 9px 0px 7px 8px;
+  margin-bottom: 0.4rem;
+  margin-top: 0.4rem;
+  border: rgb(219, 219, 219) solid 1px;
+  width: 100%;
+}
+
+.username,
 .password {
   width: 265px;
   height: 37px;
-  color: rgb(38, 38, 38);
-  padding: 9px 0px 7px 8px;
-  margin-bottom: 0.8rem;
-  border: rgb(219, 219, 219) solid 1px;
+}
+
+#personName,
+#groupName,
+#groupIDForm {
+  height: 27px;
+  margin-bottom: 1.3em;
 }
 
 .login-btn {
   font-size: 1rem;
   font-weight: 500;
   padding: 7px;
-  border-radius: 3%;
+  border-radius: 8px;
   color: black;
   width: 100%;
   font-family: 'Ubuntu', sans-serif;
@@ -288,20 +311,54 @@ ul {
   padding: 0;
 }
 
+.completed-pref-forms {
+  margin-bottom: 1em;
+}
+
 button {
   padding: 0.5em 3em;
   border: 0.16em solid #ffffff;
   text-decoration: none;
+  border-radius: 8px;
   font-family: 'Ubuntu', sans-serif;
-  font-weight: 400;
-  background-color: transparent;
+  font-weight: 500;
+  background-color: rgba(238, 229, 229, 0.465);
   cursor: pointer;
-  color: #ffffff;
+  color: black;
   text-align: center;
   transition: all 0.15s;
 }
 
 button:hover {
   background-color: rgb(102, 10, 105);
-  border-color: #dddddd;
+  border-color: #ffffff;
+  color: white;
+}
+
+select {
+  margin-bottom: 1em;
+  padding: 0.25em;
+  border: 0;
+  border-bottom: 2px solid black;
+  border-radius: 0;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+select:focus,
+select:active {
+  outline: 0;
+}
+
+#groupIDVerification {
+  width: 50%;
+}
+
+.group-creator-container {
+  display: flex;
+  flex-direction: column;
+}
+
+thead {
+  background-color: grey;
+  color: white;
 }

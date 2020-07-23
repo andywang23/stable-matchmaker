@@ -3,11 +3,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 
 const PrefSelector = (props) => {
-  console.log(props);
   let { prefInputs, userName, groupName } = props.location.state;
-  // prefInputs = ['andy', 'yolo', 'swag'];
-  // userName = 'bob';
-  // groupName = 'firstGroup';
 
   const [canSubmit, setCanSubmit] = useState(false);
   const [prefList, setPrefList] = useState([]);
@@ -37,7 +33,10 @@ const PrefSelector = (props) => {
         else isFilled = false;
       });
       setPrefList(newPrefList);
-      if (isFilled) setCanSubmit(true);
+      //can def simplify this logic
+      if (isFilled) {
+        setCanSubmit(true);
+      } else setCanSubmit(false);
     };
     const observer = new MutationObserver(callback);
     observer.observe(listWrapper, config);
@@ -67,7 +66,7 @@ const PrefSelector = (props) => {
   return (
     <main>
       <h1 id="title">
-        <span class="inner">Rank List</span>
+        <span class="inner">Preference List for {userName}</span>
       </h1>
       <div id="limbo"></div>
       <p id="coords">

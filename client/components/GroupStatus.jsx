@@ -9,6 +9,7 @@ const GroupStatus = (props) => {
   const [groups, setGroups] = useState([]);
   const [groupStatus, setGroupStatus] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+  const [algoLoading, setAlgoLoading] = useState(false);
 
   useEffect(() => {
     getGroups();
@@ -58,18 +59,29 @@ const GroupStatus = (props) => {
     }
     return (
       <div className="results">
-        <div>Missing Submissions From:</div>
+        <div>
+          <strong>Group Invite ID:</strong> {groupStatus.id}
+        </div>
+        <br />
+        <div>
+          <strong>Missing Submissions From:</strong>
+        </div>
         <ul>
           {groupStatus.missing.map((person) => (
             <li>{person}</li>
           ))}
         </ul>
-        <div>Completed Preference Forms:</div>
+        <br />
+        <div className="completed-pref-forms">
+          <strong>Completed Preference Forms: </strong>
+        </div>
         <table>
-          <tr>
-            <td>Name</td>
-            <td colSpan="1000">Preferences</td>
-          </tr>
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td colSpan="1000">Preferences</td>
+            </tr>
+          </thead>
           {prefTableRows}
         </table>
       </div>
@@ -92,10 +104,12 @@ const GroupStatus = (props) => {
       <div className="results">
         <div>RESULTS</div>
         <table>
-          <tr>
-            <td>Name</td>
-            <td colSpan="1000">Partner</td>
-          </tr>
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td colSpan="1000">Partner</td>
+            </tr>
+          </thead>
           {resultTableRows}
         </table>
       </div>
