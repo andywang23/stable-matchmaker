@@ -49,14 +49,16 @@ class AdminLogin extends React.Component {
     return this.state.userLoggedIn ? (
       <AdminMain userName={this.state.usernameinput} />
     ) : (
-      <div>
+      <div className="admin-login">
+        <h1>Welcome to the Ultimate Matchmaker</h1>
+        <h4>Please Log In</h4>
         <div className="main-login-container">
-          <form id="login-form" onClick={this.handleSubmit}>
+          <form id="login-form" onSubmit={this.handleSubmit}>
             <input
               className="username"
               name="usernameinput"
               required
-              placeholder="username or email"
+              placeholder="Username"
               value={this.state.usernameinput}
               onChange={this.handleInputChange}
             ></input>
@@ -70,29 +72,32 @@ class AdminLogin extends React.Component {
               onChange={this.handleInputChange}
             ></input>
 
-            {!this.state.validSubmissionBtn ? (
-              <input
-                className="submit-btn invalid"
-                type="submit"
-                value="Log In"
-                disabled
-              ></input>
-            ) : (
-              <input
-                className="submit-btn valid"
-                type="submit"
-                value="Log In"
-              ></input>
-            )}
+            <center>
+              {!this.state.validSubmissionBtn ? (
+                <input
+                  className="login-btn invalid"
+                  type="submit"
+                  value="Log In"
+                  disabled
+                ></input>
+              ) : (
+                <input
+                  className="login-btn valid"
+                  type="submit"
+                  value="Log In"
+                ></input>
+              )}
+            </center>
           </form>
+        </div>
 
-          <div className="incorrect-submission-text">
-            {!this.state.incorrectSubmission
-              ? ''
-              : 'Sorry, your username and/or password was incorrect. Please double-check and try again.'}
-          </div>
-
-          {/* <a id="forgot-pass">Forgot Password?</a> */}
+        <div
+          className={
+            this.state.invalidCredentials ? 'incorrect-submission-text' : 'hide'
+          }
+        >
+          Sorry, your username and/or password was incorrect. Please
+          double-check and try again
         </div>
 
         <div className="signup-container">

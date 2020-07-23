@@ -24,8 +24,6 @@ dbController.addMarriageGroup = (req, res, next) => {
     }
   );
 };
-
-//TODO: FIX CONSOLE LOGS
 dbController.addRoomieGroup = (req, res, next) => {
   //admin creates group with their name, groupName, and array of candidate names
 
@@ -39,8 +37,6 @@ dbController.addRoomieGroup = (req, res, next) => {
       adminGroups = data.groupsCreated;
 
       RoomieGroup.create({ groupName, names, admin: adminID }, (err, data) => {
-        // if (err) return next({ log: 'invalid creation query in addRoomieGroup' });
-        // return next();
         if (data) {
           newGroupID = data._id;
           adminGroups.push(newGroupID);
@@ -80,6 +76,8 @@ dbController.addRoomiePrefList = async (req, res, next) => {
 
   try {
     await RoomieGroup.findOne({ groupName }, (err, data) => {
+      if (!data)
+        return next({ log: 'invalid update query in addRoomiePrefList' });
       prefTable = JSON.parse(data.prefTable);
       prefTable[personName] = prefArray;
     }).exec();
@@ -169,6 +167,7 @@ dbController.getGroupStatus = (req, res, next) => {
         (name) => !submittedPeopleArr.includes(name)
       );
       res.locals.status = 'missing';
+      res.locals.names = names;
       res.locals.missing = missing;
       res.locals.submittedPrefList = prefTable;
     } else if (numSubmittedResults === names.length && !resultsGenerated) {
@@ -203,6 +202,7 @@ dbController.getGroupStatusbyID = (req, res, next) => {
             (name) => !submittedPeopleArr.includes(name)
           );
           res.locals.status = 'missing';
+          res.locals.names = names;
           res.locals.missing = missing;
         } else if (numSubmittedResults === names.length && !resultsGenerated) {
           res.locals.status = 'algoReady';

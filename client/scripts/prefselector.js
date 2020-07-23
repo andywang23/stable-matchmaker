@@ -1,10 +1,10 @@
 'use strict';
-
 var userX = 0;
 var userY = 0;
 var permitMovement = false;
 var listItems = document.querySelectorAll('.list-item');
-var listItemsArray = [null, null, null, null, null];
+// var listItemsArray = [null, null, null, null, null, null];
+var listItemsArray = Array(numInputs).fill(null);
 
 var listSpots = document.querySelectorAll('.list-spot');
 
@@ -65,30 +65,19 @@ function renderList() {
 
 var virtualListEditing = (function (listItemsArray) {
   // the pixel boundaries of our list spots.
-  var lSDims = {
-    first: {
-      top: 215,
-      bottom: 305,
-      left: 1050,
-      right: 1450,
-    },
-    second: {
-      top: 301,
-      bottom: 375,
-    },
-    third: {
-      top: 376,
-      bottom: 450,
-    },
-    fourth: {
-      top: 451,
-      bottom: 525,
-    },
-    fifth: {
-      top: 526,
-      bottom: 600,
-    },
-  };
+  var rect = document.querySelector('.spot-0').getBoundingClientRect();
+  console.log(rect.top, rect.right, rect.bottom, rect.left);
+
+  var lSDims = {};
+
+  listItemsArray.forEach((el, i) => {
+    lSDims[i] = {
+      top: rect.top + 80 * i,
+      bottom: rect.bottom + 80 * i,
+      left: rect.left,
+      right: rect.right,
+    };
+  });
 
   /* Check the current position of the cursor and compare it with the coordinates of
 			the list boxes. Insert the current list item into the LIA depending on its position */
@@ -99,63 +88,21 @@ var virtualListEditing = (function (listItemsArray) {
 
     listItemsArray = cleanItemFromList(listItem);
 
-    if (
-      userX >= lSDims.first.left &&
-      userX <= lSDims.first.right &&
-      pageY >= lSDims.first.top &&
-      pageY <= lSDims.first.bottom
-    ) {
-      listSpot = 0;
-      listItemsArray = virtualListEditing.addItemForRendering(
-        listItem,
-        listSpot
-      );
-    } else if (
-      userX >= lSDims.first.left &&
-      userX <= lSDims.first.right &&
-      pageY >= lSDims.second.top &&
-      pageY <= lSDims.second.bottom
-    ) {
-      listSpot = 1;
-      listItemsArray = virtualListEditing.addItemForRendering(
-        listItem,
-        listSpot
-      );
-    } else if (
-      userX >= lSDims.first.left &&
-      userX <= lSDims.first.right &&
-      pageY >= lSDims.third.top &&
-      pageY <= lSDims.third.bottom
-    ) {
-      listSpot = 2;
-      listItemsArray = virtualListEditing.addItemForRendering(
-        listItem,
-        listSpot
-      );
-    } else if (
-      userX >= lSDims.first.left &&
-      userX <= lSDims.first.right &&
-      pageY >= lSDims.fourth.top &&
-      pageY <= lSDims.fourth.bottom
-    ) {
-      listSpot = 3;
-      listItemsArray = virtualListEditing.addItemForRendering(
-        listItem,
-        listSpot
-      );
-    } else if (
-      userX >= lSDims.first.left &&
-      userX <= lSDims.first.right &&
-      pageY >= lSDims.fifth.top &&
-      pageY <= lSDims.fifth.bottom
-    ) {
-      listSpot = 4;
-      listItemsArray = virtualListEditing.addItemForRendering(
-        listItem,
-        listSpot
-      );
-    } else {
-      putItemBack(listItem);
+    for (const ls in lSDims) {
+      if (
+        userX >= lSDims[ls].left &&
+        userX <= lSDims[ls].right &&
+        pageY >= lSDims[ls].top &&
+        pageY <= lSDims[ls].bottom
+      ) {
+        listSpot = ls;
+        listItemsArray = virtualListEditing.addItemForRendering(
+          listItem,
+          listSpot
+        );
+      } else {
+        putItemBack(listItem);
+      }
     }
 
     return listItemsArray;

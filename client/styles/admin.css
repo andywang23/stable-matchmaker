@@ -11,15 +11,12 @@ body {
   background-size: cover;
   /* background-color: #081229; */
   background-image: url('../assets/bg-01.jpg');
+  font-family: 'Ubuntu', sans-serif;
 }
 
 .main-login-container {
-  background: white;
   width: fit-content;
-  overflow: hidden;
   display: flex;
-  /* padding: 177px 130px 33px 95px; */
-  border-radius: 10px;
 }
 
 table {
@@ -124,9 +121,14 @@ td {
 .holster-wrapper {
   float: left;
   background-color: #fefefe;
-  /* width: 254px; */
-  margin-left: 100px;
+  width: 290px;
+  margin-right: 100px;
   padding: 20px;
+  border-radius: 4px;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+}
+
+.list-wrapper {
   border-radius: 4px;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
 }
@@ -136,7 +138,7 @@ td {
 }
 
 .in-list {
-  margin: 52px auto 0 auto;
+  margin: 40px auto 0 auto;
   transform: translateY(-50%);
 }
 
@@ -147,7 +149,8 @@ td {
 }
 
 #coords {
-  display: inline-block;
+  /* display: inline-block; */
+  display: none;
   background-color: #fefefe;
   height: 37.8px;
   line-height: 37.8px;
@@ -163,7 +166,7 @@ td {
 .list-spot {
   background-color: #fefefe;
   width: 300px;
-  height: 100px;
+  height: 80px;
   margin: 0 auto;
   border: 1px solid #dedede;
   border-bottom: 0;
@@ -187,4 +190,118 @@ main {
   min-height: 150vh;
   padding-top: 2em;
   text-align: center;
+}
+
+.selector-container {
+  display: flex;
+  justify-content: center;
+}
+
+#submit-prefs {
+  margin-bottom: 22px;
+}
+
+.hide {
+  visibility: hidden;
+}
+
+.main-app-container,
+.admin-login,
+.admin-dashboard,
+.user-landing {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(238, 229, 229, 0.6);
+  width: 700px;
+  border-radius: 10px;
+  padding-bottom: 15px;
+}
+
+.main-app-container {
+  height: 200px;
+}
+
+.admin-login {
+  height: 350px;
+}
+
+.role-btn-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.admin-dashboard {
+  height: fit-content;
+  min-height: 300px;
+}
+
+.username,
+.password {
+  width: 265px;
+  height: 37px;
+  color: rgb(38, 38, 38);
+  padding: 9px 0px 7px 8px;
+  margin-bottom: 0.8rem;
+  border: rgb(219, 219, 219) solid 1px;
+}
+
+.login-btn {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 7px;
+  border-radius: 3%;
+  color: black;
+  width: 100%;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.invalid {
+  background-color: rgb(240, 200, 250);
+}
+
+.valid {
+  background-color: rgb(102, 10, 105);
+  cursor: pointer;
+  color: white;
+}
+
+.results,
+.group-status-container,
+.group-verified-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#submit-group-btn,
+.group-verified-msg,
+#nameSelector {
+  margin-top: 12px;
+}
+
+ul {
+  padding: 0;
+}
+
+button {
+  padding: 0.5em 3em;
+  border: 0.16em solid #ffffff;
+  text-decoration: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 400;
+  background-color: transparent;
+  cursor: pointer;
+  color: #ffffff;
+  text-align: center;
+  transition: all 0.15s;
+}
+
+button:hover {
+  background-color: rgb(102, 10, 105);
+  border-color: #dddddd;
 }

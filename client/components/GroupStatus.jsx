@@ -24,7 +24,6 @@ const GroupStatus = (props) => {
     if (!e.target.value) setGroupStatus('');
     const response = await fetch(`/api/groupstatus/${e.target.value}`);
     const parsedRes = await response.json();
-    console.log(parsedRes);
     setGroupStatus(parsedRes);
   }
 
@@ -58,7 +57,7 @@ const GroupStatus = (props) => {
       );
     }
     return (
-      <div>
+      <div className="results">
         <div>Missing Submissions From:</div>
         <ul>
           {groupStatus.missing.map((person) => (
@@ -90,13 +89,13 @@ const GroupStatus = (props) => {
       );
     }
     return (
-      <div>
+      <div className="results">
         <div>RESULTS</div>
         <table>
-          {/* <tr>
+          <tr>
             <td>Name</td>
-            <td colSpan="1000">Preferences</td>
-          </tr> */}
+            <td colSpan="1000">Partner</td>
+          </tr>
           {resultTableRows}
         </table>
       </div>
@@ -140,9 +139,8 @@ const GroupStatus = (props) => {
   }
 
   return (
-    <div>
-      See Group Status
-      <br />
+    <div className="group-status-container">
+      <h4>Group Status</h4>
       <select name="groups" id="groupSelector" onChange={handleSelectChange}>
         <option value="">Choose Available Groups</option>
         {groups.map((group) => (

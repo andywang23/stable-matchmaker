@@ -34,12 +34,11 @@ algoController.stableRoomies = (req, res, next) => {
 
   //algo will spit out object if stable match is found
   return typeof res.locals.result === 'string'
-    ? next({ message: 'Unable to find stable match' })
+    ? next("{ message: 'Unable to find stable match' }")
     : next();
 };
 
 algoController.forceMatch = (req, res, next) => {
-  console.log(req.body);
   const prefTableInput = req.body.prefTable;
   const matchTable = forceMatch(prefTableInput);
 

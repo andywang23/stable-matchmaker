@@ -1,15 +1,18 @@
 import React from 'react';
+import { Route, Switch, NavLink } from 'react-router-dom';
+import AdminLogin from './components/AdminLogin';
+import UserLanding from './components/UserLanding';
+import HomePage from './components/HomePage';
+import PrefSelector from './components/PrefSelector';
 
 const App = (props) => {
   return (
-    <div className="main-container">
-      <h1>Welcome to the Ultimate Matchmaker</h1>
-      <h4>Select Your Role Below</h4>
-      <div className="role-btn-container">
-        <button>User</button>
-        <button>Admin</button>
-      </div>
-    </div>
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route exact path="/user" component={UserLanding} />
+      <Route exact path="/admin" component={AdminLogin} />
+      <Route exact path="/prefselector" component={PrefSelector} />
+    </Switch>
   );
 };
 
