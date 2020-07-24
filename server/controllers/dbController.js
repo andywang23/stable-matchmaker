@@ -70,29 +70,25 @@ dbController.addMarriagePrefList = async (req, res, next) => {
   });
 };
 
-dbController.addRoomiePrefList = async (req, res, next) => {
+dbController.addRoomiePrefList = (req, res, next) => {
   const { groupName, personName, prefArray } = req.body;
   let prefTable;
+  RoomieGroup.findOne({ groupName }, (err, data) => {
+    if (!data)
+      return next({ log: 'invalid update query in addRoomiePrefList' });
+    prefTable = JSON.parse(data.prefTable);
+    prefTable[personName] = prefArray;
 
-  try {
-    await RoomieGroup.findOne({ groupName }, (err, data) => {
-      if (!data)
-        return next({ log: 'invalid update query in addRoomiePrefList' });
-      prefTable = JSON.parse(data.prefTable);
-      prefTable[personName] = prefArray;
-    }).exec();
-    await RoomieGroup.findOneAndUpdate(
+    RoomieGroup.findOneAndUpdate(
       { groupName },
       { prefTable: JSON.stringify(prefTable) },
       (err, data) => {
         if (err)
           return next({ log: 'invalid update query in addRoomiePrefList' });
+        else return next();
       }
-    ).exec();
-    return next();
-  } catch {
-    return next({ log: 'invalid find query in addRoomiePrefList' });
-  }
+    );
+  });
 };
 
 dbController.addAdmin = (req, res, next) => {

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useState, useEffect } from 'react';
 import { fromPairs } from 'lodash';
+import loadingIcon from '../assets/loading-icon.gif';
 
 const GroupStatus = (props) => {
   const { userName } = props;
@@ -123,6 +124,7 @@ const GroupStatus = (props) => {
         groupName: groupStatus.groupName,
       };
 
+      setAlgoLoading(true);
       try {
         const results = await fetch('/algos/force-match', {
           method: 'POST',
@@ -132,6 +134,10 @@ const GroupStatus = (props) => {
           body: JSON.stringify(body),
         });
         const parsedRes = await results.json();
+        //TO BLOCK THREAD FOR FAKE LOADING ICON
+        await new Promise((r) => setTimeout(r, 4000));
+
+        setAlgoLoading(false);
 
         setGroupStatus({
           ...groupStatus,
@@ -143,11 +149,16 @@ const GroupStatus = (props) => {
         setErrorMsg('Could not access server');
       }
     }
+
     return (
       <div className="center">
-        <div className="select-button" onClick={handleAlgoBtnClick}>
-          <strong>ALGO TIME</strong>
-        </div>
+        {algoLoading ? (
+          <img id="loading" src={loadingIcon}></img>
+        ) : (
+          <div className="select-button" onClick={handleAlgoBtnClick}>
+            <strong>ALGO TIME</strong>
+          </div>
+        )}
       </div>
     );
   }

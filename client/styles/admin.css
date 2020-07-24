@@ -362,3 +362,8 @@ thead {
   background-color: grey;
   color: white;
 }
+
+#loading {
+  width: 80px;
+  height: 80px;
+}
