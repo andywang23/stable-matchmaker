@@ -7,9 +7,7 @@
 //a stable result
 
 const cloneDeep = require('lodash/cloneDeep');
-
-const testTable = createPrefTable(32);
-// console.log('forceMatch/', forceMatch(testTable));
+const { swap, shuffleArray, findMidPoint } = require('./utils');
 
 function forceMatch(preferenceList) {
   const prefList = cloneDeep(preferenceList);
@@ -83,21 +81,6 @@ function forceTest(preferenceList, peopleArray, keepSwaps, swapMagnitude) {
     if (!keepSwaps) swap(personPrefList, swapIndex1, swapIndex2);
   }
   return output;
-}
-
-function swap(arr, idx1, idx2) {
-  [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
-}
-
-function shuffleArray(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    swap(arr, i, j);
-  }
-}
-
-function findMidPoint(arr) {
-  return Math.ceil(arr.length / 2);
 }
 
 function createPrefTable(length) {
@@ -203,7 +186,7 @@ function reduceStableTables(proposalTable, preferenceTable) {
 //p[1] === q[0]'s last preference
 //q[1] === p[1]'s second preference and so on
 //until one person shows up twice in an array
-//then eliminate all second to last pairings
+//then eliminate all q[i] and p[i+1] pairings
 
 //if anyone's pref list becomes empty, no
 //stable pairings exist
@@ -218,10 +201,7 @@ function removeCycle(reducedPreference) {
   while (!impossibleMatchCondition && cycleEntered) {
     cycleEntered = false;
 
-    let noSecondPrefFound;
-
     for (const person in reducedPref) {
-      noSecondPrefFound = false;
       if (reducedPref[person].length <= 1) continue;
       //if all pref lists have been cut down to 1 person
       //then cycleEntered will remain false and loop will exit

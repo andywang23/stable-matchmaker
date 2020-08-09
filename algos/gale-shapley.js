@@ -46,6 +46,7 @@ function stableMarriage(malePreference, femalePreference) {
   return proposalTable;
 }
 
+//-----------TESTS-------------
 const testMales = {
   m1: ['w1', 'w2', 'w3', 'w4'],
   m2: ['w1', 'w4', 'w3', 'w2'],
@@ -59,8 +60,6 @@ const testFemales = {
   w3: ['m4', 'm1', 'm2', 'm3'],
   w4: ['m3', 'm2', 'm1', 'm4'],
 };
-// console.log(JSON.stringify(testFemales));
-
 // console.log(stableMarriage(testMales, testFemales));
 
 const testMales2 = {

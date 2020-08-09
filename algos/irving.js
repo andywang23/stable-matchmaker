@@ -158,6 +158,8 @@ function removeCycle(reducedPreference) {
   return impossibleMatchCondition ? false : reducedPref;
 }
 
+//-----------TESTS-------------
+
 const brokenInputWiki = {
   a: ['b', 'c', 'd'],
   b: ['c', 'a', 'd'],

@@ -1,3 +1,6 @@
+const { swap, shuffleArray } = require('./utils');
+const forceMatch = require('./force-match');
+
 function createPrefTable(length) {
   if (length % 2) return 'Error';
   const templateArr = [];
@@ -10,17 +13,7 @@ function createPrefTable(length) {
     shuffleArray(prefTable);
     outputTable[el] = prefTable;
   });
-
   return outputTable;
 }
 
-function shuffleArray(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    swap(arr, i, j);
-  }
-}
-
-function swap(arr, idx1, idx2) {
-  [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
-}
+console.log(forceMatch(createPrefTable(50)));

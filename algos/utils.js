@@ -12,3 +12,5 @@ function shuffleArray(arr) {
 function findMidPoint(arr) {
   return Math.ceil(arr.length / 2);
 }
+
+module.exports = { swap, shuffleArray, findMidPoint };
