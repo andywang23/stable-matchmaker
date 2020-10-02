@@ -4,9 +4,9 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server/index.js",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open --hot --inline --progress --colors --watch --content-base ./\" \"nodemon ./server/server.js\""
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open --hot --inline --progress --colors --watch --content-base ./\" \"nodemon ./server/server.js\"",
+    "test": "jest --verbose"
   },
   "author": "Andy Wang",
   "license": "ISC",
@@ -33,6 +33,7 @@
     "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
     "file-loader": "^6.0.0",
+    "jest": "^26.4.2",
     "nodemon": "^2.0.4",
     "style-loader": "^1.2.1",
     "webpack": "^4.43.0",
