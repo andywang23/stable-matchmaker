@@ -1,7 +1,14 @@
 import React from 'react';
-
 import { useState } from 'react';
 import GroupStatus from './GroupStatus';
+import styled from 'styled-components';
+import { Container } from '../styles/sharedstyles';
+
+const AdminDashboard = styled(Container)`
+  margin-top: 5em;
+  height: fit-content;
+  min-height: 300px;
+`;
 
 const AdminMain = (props) => {
   const { userName } = props;
@@ -47,15 +54,15 @@ const AdminMain = (props) => {
   }
 
   return (
-    <div>
-      <div className="admin-dashboard">
+    <>
+      <AdminDashboard>
         <h3>Hello, {userName}</h3>
         <div>
           <GroupStatus userName={userName} />
         </div>
-      </div>
+      </AdminDashboard>
 
-      <div className="admin-dashboard">
+      <AdminDashboard>
         <h4>Create Group</h4>
         <div className="group-creator-container">
           <center>
@@ -85,8 +92,8 @@ const AdminMain = (props) => {
           </button>
           <div className="group-submit-msg">{groupSubmitRes}</div>
         </div>
-      </div>
-    </div>
+      </AdminDashboard>
+    </>
   );
 };
 
