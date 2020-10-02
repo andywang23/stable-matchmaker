@@ -55,14 +55,6 @@ td {
 }
 .select-button:active {
   box-shadow: 0 0 #e24f4f;
-  -webkit-transform: translate(0px, 15px);
-  -moz-transform: translate(0px, 15px);
-  -ms-transform: translate(0px, 15px);
-  -o-transform: translate(0px, 15px);
-  -webkit-transition: 0.1s all ease-out;
-  -moz-transition: 0.1s all ease-out;
-  -ms-transition: 0.1s all ease-out;
-  -o-transition: 0.1s all ease-out;
   transition: 0.1s all ease-out;
 }
 
@@ -228,6 +220,10 @@ input:focus {
 
 .admin-login {
   height: 370px;
+}
+
+.admin-dashboard {
+  margin-top: 5em;
 }
 
 .role-btn-container {

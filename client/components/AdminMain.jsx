@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { useState, useEffect } from 'react';
-import { fromPairs } from 'lodash';
+import { useState } from 'react';
 import GroupStatus from './GroupStatus';
 
 const AdminMain = (props) => {
@@ -21,8 +20,7 @@ const AdminMain = (props) => {
 
   async function handleSubmitGroup(e) {
     e.preventDefault();
-    if (people.length % 2)
-      return setGroupSubmitRes('Need even number of people');
+    if (people.length % 2) return setGroupSubmitRes('Need even number of people');
     const body = { admin: userName, groupName: groupName, names: people };
 
     const response = await fetch('/api/groups', {
@@ -34,8 +32,7 @@ const AdminMain = (props) => {
     });
     const parsedRes = await response.json();
 
-    if (parsedRes && parsedRes.err)
-      setGroupSubmitRes('Group name already exists!');
+    if (parsedRes && parsedRes.err) setGroupSubmitRes('Group name already exists!');
     else setGroupSubmitRes('Sucessfully added group!');
   }
 
@@ -57,9 +54,6 @@ const AdminMain = (props) => {
           <GroupStatus userName={userName} />
         </div>
       </div>
-      <br />
-      <br />
-      <br />
 
       <div className="admin-dashboard">
         <h4>Create Group</h4>
@@ -67,17 +61,11 @@ const AdminMain = (props) => {
           <center>
             <label htmlFor="groupName">Group Name</label>
           </center>
-          <input
-            id="groupName"
-            name="groupName"
-            onChange={handleGroupNameChange}
-          ></input>
+          <input id="groupName" name="groupName" onChange={handleGroupNameChange}></input>
           <br />
           <form onSubmit={handleSubmitPerson}>
             <center>
-              <label htmlFor="personName">
-                Input Individual Names (Enter to Add)
-              </label>
+              <label htmlFor="personName">Input Individual Names (Enter to Add)</label>
             </center>
             <input id="personName" name="personName"></input>
           </form>

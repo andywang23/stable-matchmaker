@@ -1,4 +1,4 @@
-const { swap, shuffleArray } = require('./utils');
+const { shuffleArray } = require('./utils');
 const forceMatch = require('./force-match');
 
 function createPrefTable(length) {
@@ -16,4 +16,4 @@ function createPrefTable(length) {
   return outputTable;
 }
 
-console.log(forceMatch(createPrefTable(50)));
+console.log(forceMatch(createPrefTable(30)));
