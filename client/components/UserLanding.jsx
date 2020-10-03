@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Container, Form, CenterFlex, Select } from '../styles/styledComponents';
+import { Container, Form, CenterFlex, Select, Button } from '../styles/styledComponents';
 
 const UserLanding = () => {
   //input form for groupID
@@ -95,11 +95,16 @@ const UserLanding = () => {
               },
             }}
           >
-            <button className={!userName ? 'hide' : undefined}>Confirm</button>
+            <Button style={userName ? null : { visibility: 'hidden' }}>Confirm</Button>
           </NavLink>
         </CenterFlex>
       );
-    } else return;
+    } else if (groupStatus && groupStatus.status === 'algoReady')
+      return (
+        <CenterFlex>
+          All preferences have been submitted - administrator has yet to release results
+        </CenterFlex>
+      );
   }
 
   return (
@@ -107,7 +112,7 @@ const UserLanding = () => {
       <h1>Welcome to the Ultimate Matchmaker</h1>
       <label htmlFor="groupIDForm">Input Group ID </label>
       <form style={{ width: '50%' }} onSubmit={verifyGroup}>
-        <Form name="groupIDForm" ref={groupIDForm} />
+        <Form name="groupIDForm" style={{ textAlign: 'center' }} ref={groupIDForm} />
       </form>
       {groupVerificationMsg()}
       {errorMsg}

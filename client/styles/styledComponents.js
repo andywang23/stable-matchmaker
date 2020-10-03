@@ -88,3 +88,23 @@ export const ValidLoginButton = styled(LoginButton)`
 export const InvalidLoginButton = styled(LoginButton)`
   background-color: rgb(240, 200, 250);
 `;
+
+export const Table = styled.table`
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 50%);
+  border-radius: 0.25em;
+  padding: 0.75em;
+  border-bottom: 1px grey solid;
+`;
+
+export const TableCell = styled.td`
+  padding: 0.75em;
+  border-bottom: 1px grey solid;
+`;
+
+export const TableHead = styled.thead`
+  background-color: grey;
+  color: white;
+  border-bottom: 1px solid #364043;
+  padding: 0.15em;
+`;

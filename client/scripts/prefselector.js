@@ -27,7 +27,6 @@ function initDrag(mouseEvent) {
   movementMethods.positionItemOnCursor(mouseEvent, listItem);
   movementMethods.removeFromUnrankedPool(listItem);
   movementMethods.displayMouseCoordinates();
-
   movementMethods.addMovementListener(listItem);
 }
 
@@ -96,10 +95,7 @@ var virtualListEditing = (function (listItemsArray) {
         pageY <= lSDims[ls].bottom
       ) {
         listSpot = ls;
-        listItemsArray = virtualListEditing.addItemForRendering(
-          listItem,
-          listSpot
-        );
+        listItemsArray = virtualListEditing.addItemForRendering(listItem, listSpot);
       } else {
         putItemBack(listItem);
       }
@@ -208,8 +204,7 @@ var movementMethods = (function () {
 
   function displayMouseCoordinates() {
     document.getElementById('x-coord').textContent = userX + 'px';
-    document.getElementById('y-coord').textContent =
-      Math.trunc(userY + window.scrollY) + 'px';
+    document.getElementById('y-coord').textContent = Math.trunc(userY + window.scrollY) + 'px';
   }
 
   function addMovementListener(listItem) {
@@ -242,8 +237,7 @@ var movementMethods = (function () {
       offsetY -= window.scrollY;
     }
 
-    var positionStyles =
-      'top: ' + (userY - offsetY) + 'px; left: ' + (userX - offsetX) + 'px;';
+    var positionStyles = 'top: ' + (userY - offsetY) + 'px; left: ' + (userX - offsetX) + 'px;';
 
     listItem.setAttribute('style', positionStyles);
   }

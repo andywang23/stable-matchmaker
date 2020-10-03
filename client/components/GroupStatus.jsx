@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import loadingIcon from '../assets/loading-icon.gif';
-import { CenterFlex, Select } from '../styles/styledComponents';
+import { CenterFlex, Select, Table, TableCell } from '../styles/styledComponents';
 import styled from 'styled-components';
 
 const AlgoButton = styled.div`
@@ -95,7 +95,7 @@ const GroupStatus = ({ userName }) => {
           ))}
         </ul>
         <br />
-        <div className="completed-pref-forms">
+        <div style={{ marginBottom: '1em' }}>
           <strong>Completed Preference Forms: </strong>
         </div>
         <table>
@@ -124,15 +124,15 @@ const GroupStatus = ({ userName }) => {
     }
     return (
       <CenterFlex>
-        <table>
-          <thead>
+        <Table>
+          <TableHead>
             <tr>
-              <td>Name</td>
-              <td colSpan="1000">Partner</td>
+              <TableCell>Name</TableCell>
+              <TableCell colSpan="1000">Partner</TableCell>
             </tr>
-          </thead>
+          </TableHead>
           {resultTableRows}
-        </table>
+        </Table>
       </CenterFlex>
     );
   }
@@ -155,7 +155,7 @@ const GroupStatus = ({ userName }) => {
         });
         const parsedRes = await results.json();
         //TO BLOCK THREAD FOR FAKE LOADING ICON
-        await new Promise((r) => setTimeout(r, 2500));
+        await new Promise((r) => setTimeout(r, 2000));
 
         setAlgoLoading(false);
 
@@ -175,9 +175,9 @@ const GroupStatus = ({ userName }) => {
         {algoLoading ? (
           <img style={{ width: '80px', height: '80px' }} src={loadingIcon}></img>
         ) : (
-          <div className="select-button" onClick={handleAlgoBtnClick}>
+          <AlgoButton onClick={handleAlgoBtnClick}>
             <strong>Matchmaking Time</strong>
-          </div>
+          </AlgoButton>
         )}
       </>
     );

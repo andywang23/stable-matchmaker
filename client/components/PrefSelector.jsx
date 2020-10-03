@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Button } from '../styles/styledComponents';
 
@@ -55,6 +55,33 @@ const ListItem = styled.div`
   border: none;
   text-align: center;
   font-size: 28px;
+  user-select: none;
+`;
+
+const ListItemBackground = styled.div`
+  background-color: #e1e1ec;
+  border: 2px solid #d9d9e9;
+  border-radius: 4px;
+  width: 250px;
+`;
+
+const ListSpot = styled.div`
+  background-color: #fefefe;
+  width: 300px;
+  height: 80px;
+  margin: 0 auto;
+  border: 1px solid #dedede;
+  border-bottom: 0;
+  &:first-of-type {
+    border-top: 1px solid #9a9a9a;
+  }
+  &:last-of-type {
+    border-bottom: 1px solid #9a9a9a;
+  }
+`;
+
+const ListWrapper = styled.div`
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
 `;
 
 const PrefSelector = ({ location }) => {
@@ -63,6 +90,7 @@ const PrefSelector = ({ location }) => {
   const [canSubmit, setCanSubmit] = useState(false);
   const [prefList, setPrefList] = useState([]);
   const [submitStatus, setSubmitStatus] = useState('');
+  const listWrapperRef = useRef(null);
 
   useEffect(() => {
     const inputScript = document.createElement('script');
@@ -76,7 +104,6 @@ const PrefSelector = ({ location }) => {
     script.async = true;
     document.body.appendChild(script);
 
-    const listWrapper = document.querySelector('.list-wrapper');
     const config = { childList: true, subtree: true };
     const callback = function (mutationsList, observer) {
       const listSpots = document.querySelectorAll('.list-spot');
@@ -93,7 +120,7 @@ const PrefSelector = ({ location }) => {
       } else setCanSubmit(false);
     };
     const observer = new MutationObserver(callback);
-    observer.observe(listWrapper, config);
+    observer.observe(listWrapperRef.current, config);
 
     return () => {
       document.body.removeChild(script);
@@ -119,7 +146,7 @@ const PrefSelector = ({ location }) => {
 
   return (
     <main>
-      <h1 id="title">
+      <h1 id="title" style={{ height: '48px', marginTop: '22px' }}>
         <span class="inner">Preference List for {userName}</span>
       </h1>
       <div id="limbo"></div>
@@ -135,17 +162,17 @@ const PrefSelector = ({ location }) => {
           {prefInputs.map((person) => (
             <Holster className="holster">
               <ListItem className="list-item">
-                <div className="list-item-background">{person}</div>
+                <ListItemBackground className="list-item-background">{person}</ListItemBackground>
               </ListItem>
             </Holster>
           ))}
         </HolsterWrapper>
 
-        <div className="list-wrapper">
+        <ListWrapper className="list-wrapper" ref={listWrapperRef}>
           {prefInputs.map((person, idx) => (
-            <div className={`list-spot spot-${idx}`}></div>
+            <ListSpot className={`list-spot spot-${idx}`}></ListSpot>
           ))}
-        </div>
+        </ListWrapper>
       </SelectorContainer>
     </main>
   );
