@@ -1,8 +1,29 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { fromPairs } from 'lodash';
+import React, { useState, useEffect } from 'react';
 import loadingIcon from '../assets/loading-icon.gif';
-import { CenterFlex } from '../styles/sharedStyles';
+import { CenterFlex, Select } from '../styles/sharedStyles';
+import styled from 'styled-components';
+
+const AlgoButton = styled.div`
+  width: 200px;
+  height: 180px;
+  line-height: 200px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%;
+  background: #f74d4d;
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0%, #f74d4d),
+    color-stop(100%, #f86569)
+  );
+  box-shadow: 0 15px #e24f4f;
+  &:active {
+    box-shadow: 0 0 #e24f4f;
+    transition: 0.1s all ease-out;
+  }
+`;
 
 const GroupStatus = ({ userName }) => {
   const [groups, setGroups] = useState([]);
@@ -68,7 +89,7 @@ const GroupStatus = ({ userName }) => {
         <div>
           <strong>Missing Submissions From:</strong>
         </div>
-        <ul>
+        <ul style={{ padding: 0 }}>
           {groupStatus.missing.map((person) => (
             <li>{person}</li>
           ))}
@@ -97,7 +118,6 @@ const GroupStatus = ({ userName }) => {
       resultTableRows.push(
         <tr>
           <td>{person}</td>
-
           <td>{resultTable[person]}</td>
         </tr>
       );
@@ -135,7 +155,7 @@ const GroupStatus = ({ userName }) => {
         });
         const parsedRes = await results.json();
         //TO BLOCK THREAD FOR FAKE LOADING ICON
-        await new Promise((r) => setTimeout(r, 4000));
+        await new Promise((r) => setTimeout(r, 2500));
 
         setAlgoLoading(false);
 
@@ -153,10 +173,10 @@ const GroupStatus = ({ userName }) => {
     return (
       <>
         {algoLoading ? (
-          <img id="loading" src={loadingIcon}></img>
+          <img style={{ width: '80px', height: '80px' }} src={loadingIcon}></img>
         ) : (
           <div className="select-button" onClick={handleAlgoBtnClick}>
-            <strong>ALGO TIME</strong>
+            <strong>Matchmaking Time</strong>
           </div>
         )}
       </>
@@ -166,13 +186,14 @@ const GroupStatus = ({ userName }) => {
   return (
     <CenterFlex>
       <h4>Group Status</h4>
-      <select name="groups" id="groupSelector" onChange={handleSelectChange}>
+      <Select name="groups" onChange={handleSelectChange}>
         <option value="">Choose Available Groups</option>
         {groups.map((group) => (
           <option value={group}>{group}</option>
         ))}
-      </select>
+      </Select>
       {groupStatusDisplayRouter()}
+      {errorMsg}
     </CenterFlex>
   );
 };

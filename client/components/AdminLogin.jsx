@@ -1,6 +1,23 @@
 import React from 'react';
 import AdminMain from './AdminMain';
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import { Form } from '../styles/sharedStyles';
+
+const LoginInput = styled(Form)`
+  width: 265px;
+  height: 37px;
+`;
+
+const LoginButton = styled.input`
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 7px;
+  border-radius: 8px;
+  color: black;
+  width: 100%;
+  font-family: 'Ubuntu', sans-serif;
+`;
 
 class AdminLogin extends React.Component {
   constructor(props) {
@@ -53,50 +70,35 @@ class AdminLogin extends React.Component {
         <h4>Please Log In</h4>
         <div className="main-login-container">
           <form id="login-form" onSubmit={this.handleSubmit}>
-            <input
-              className="username"
+            <LoginInput
               name="usernameinput"
               required
               placeholder="Username"
               value={this.state.usernameinput}
               onChange={this.handleInputChange}
-            ></input>
-            <br></br>
-            <input
+            />
+            <br />
+            <LoginInput
               className="password"
               name="passwordinput"
               required
               type="password"
               placeholder="Password"
               onChange={this.handleInputChange}
-            ></input>
+            />
 
             <center>
               {!this.state.validSubmissionBtn ? (
-                <input
-                  className="login-btn invalid"
-                  type="submit"
-                  value="Log In"
-                  disabled
-                ></input>
+                <LoginButton className="invalid" type="submit" value="Log In" disabled />
               ) : (
-                <input
-                  className="login-btn valid"
-                  type="submit"
-                  value="Log In"
-                ></input>
+                <LoginButton className="valid" type="submit" value="Log In" />
               )}
             </center>
           </form>
         </div>
 
-        <div
-          className={
-            this.state.invalidCredentials ? 'incorrect-submission-text' : 'hide'
-          }
-        >
-          Sorry, your username and/or password was incorrect. Please
-          double-check and try again
+        <div className={this.state.invalidCredentials ? 'incorrect-submission-text' : 'hide'}>
+          Sorry, your username and/or password was incorrect. Please double-check and try again
         </div>
 
         <div className="signup-container">

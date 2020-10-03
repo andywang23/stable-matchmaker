@@ -1,7 +1,6 @@
 import React from 'react';
-import { Route, Switch, NavLink } from 'react-router-dom';
-import AdminLogin from './AdminLogin';
-import UserLanding from './UserLanding';
+import { NavLink } from 'react-router-dom';
+import { Button } from '../styles/sharedStyles';
 
 const HomePage = (props) => {
   return (
@@ -10,10 +9,10 @@ const HomePage = (props) => {
       <h4>Select Your Role Below</h4>
       <div className="role-btn-container">
         <NavLink to="/user">
-          <button>User</button>
+          <Button>User</Button>
         </NavLink>
         <NavLink to="/admin">
-          <button>Matchmaker</button>
+          <Button>Matchmaker</Button>
         </NavLink>
       </div>
     </div>

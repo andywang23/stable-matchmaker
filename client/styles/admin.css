@@ -29,35 +29,6 @@ td {
   border: 1px solid black;
 }
 
-.select-button {
-  width: 200px;
-  height: 180px;
-  line-height: 200px;
-  text-align: center;
-  cursor: pointer;
-  border-radius: 50%;
-  background: #f74d4d;
-  background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0%, #f74d4d),
-    color-stop(100%, #f86569)
-  );
-  background-image: -moz-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0%, #f74d4d),
-    color-stop(100%, #f86569)
-  );
-  box-shadow: 0 15px #e24f4f;
-}
-.select-button:active {
-  box-shadow: 0 0 #e24f4f;
-  transition: 0.1s all ease-out;
-}
-
 .expand-list-item {
   position: absolute;
   top: -200px;
@@ -231,42 +202,6 @@ input:focus {
 .role-btn-container button {
   width: 155px;
 }
-.username,
-.password,
-#personName,
-#groupName,
-#groupIDForm {
-  color: rgb(38, 38, 38);
-  border-radius: 8px;
-  padding: 9px 0px 7px 8px;
-  margin-bottom: 0.4rem;
-  margin-top: 0.4rem;
-  border: rgb(219, 219, 219) solid 1px;
-  width: 100%;
-}
-
-.username,
-.password {
-  width: 265px;
-  height: 37px;
-}
-
-#personName,
-#groupName,
-#groupIDForm {
-  height: 27px;
-  margin-bottom: 1.3em;
-}
-
-.login-btn {
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 7px;
-  border-radius: 8px;
-  color: black;
-  width: 100%;
-  font-family: 'Ubuntu', sans-serif;
-}
 
 .invalid {
   background-color: rgb(240, 200, 250);
@@ -285,32 +220,8 @@ input:focus {
   margin-top: 12px;
 }
 
-ul {
-  padding: 0;
-}
-
 .completed-pref-forms {
   margin-bottom: 1em;
-}
-
-button:hover {
-  background-color: rgb(102, 10, 105);
-  border-color: #ffffff;
-  color: white;
-}
-
-select {
-  margin-bottom: 1em;
-  padding: 0.25em;
-  border: 0;
-  border-bottom: 2px solid black;
-  border-radius: 0;
-  font-family: 'Ubuntu', sans-serif;
-}
-
-select:focus,
-select:active {
-  outline: 0;
 }
 
 #groupIDVerification {
@@ -320,9 +231,4 @@ select:active {
 thead {
   background-color: grey;
   color: white;
-}
-
-#loading {
-  width: 80px;
-  height: 80px;
 }

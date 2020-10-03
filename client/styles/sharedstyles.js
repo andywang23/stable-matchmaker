@@ -48,3 +48,17 @@ export const CenterFlex = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+export const Select = styled.select`
+  margin-bottom: 1em;
+  padding: 0.25em;
+  border: 0;
+  border-bottom: 2px solid black;
+  border-radius: 0;
+  font-family: 'Ubuntu', sans-serif;
+
+  &:focus,
+  &:active {
+    outline: 0;
+  }
+`;
