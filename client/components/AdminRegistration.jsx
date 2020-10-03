@@ -1,4 +1,11 @@
 import React from 'react';
+import styled from 'styled-components';
+import {
+  LoginInput,
+  ValidLoginButton,
+  InvalidLoginButton,
+  Container,
+} from '../styles/styledComponents';
 
 class AdminRegistration extends React.Component {
   constructor(props) {
@@ -32,8 +39,7 @@ class AdminRegistration extends React.Component {
       body: JSON.stringify(body),
     });
     const parsedRes = await response.json();
-    if (parsedRes.err)
-      this.setState({ responseMsg: 'Username already exists!' });
+    if (parsedRes.err) this.setState({ responseMsg: 'Username already exists!' });
     else this.setState({ responseMsg: 'Admin successfully created!' });
   };
 
@@ -41,58 +47,36 @@ class AdminRegistration extends React.Component {
     return this.state.userLoggedIn ? (
       <AdminMain userName={this.state.usernameinput} />
     ) : (
-      <div className="admin-login">
+      <Container>
         <h1>Welcome to the Ultimate Matchmaker</h1>
         <h4>Please Register Below</h4>
         <div className="main-login-container">
           <form id="login-form" onSubmit={this.handleSubmit}>
-            <input
-              className="username"
+            <LoginInput
               name="usernameinput"
               required
               placeholder="Username"
               value={this.state.usernameinput}
               onChange={this.handleInputChange}
-            ></input>
-            <br></br>
-            <input
-              className="password"
+            />
+            <LoginInput
               name="passwordinput"
               required
               type="password"
               placeholder="Password"
               onChange={this.handleInputChange}
-            ></input>
-
+            />
             <center>
-              {!this.state.validSubmissionBtn ? (
-                <input
-                  className="login-btn invalid"
-                  type="submit"
-                  value="Register"
-                  disabled
-                ></input>
+              {this.state.validSubmissionBtn ? (
+                <ValidLoginButton type="submit" value="Register" />
               ) : (
-                <input
-                  className="login-btn valid"
-                  type="submit"
-                  value="Register"
-                ></input>
+                <InvalidLoginButton type="submit" value="Register" disabled />
               )}
             </center>
             {this.state.responseMsg}
           </form>
         </div>
-
-        <div
-          className={
-            this.state.invalidCredentials ? 'incorrect-submission-text' : 'hide'
-          }
-        >
-          Sorry, your username and/or password was incorrect. Please
-          double-check and try again
-        </div>
-      </div>
+      </Container>
     );
   }
 }

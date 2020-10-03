@@ -1,10 +1,8 @@
-import React from 'react';
-
-import { useState, useEffect } from 'react';
-import { fromPairs } from 'lodash';
+import React, { useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Container, Form, CenterFlex, Select } from '../styles/styledComponents';
 
-const UserLanding = (props) => {
+const UserLanding = () => {
   //input form for groupID
   //drop down to choose which user you are
   //drag and drop preference selector
@@ -12,17 +10,22 @@ const UserLanding = (props) => {
   const [groupVerified, setGroupVerified] = useState(null);
   const [groupStatus, setGroupStatus] = useState(null);
   const [userName, setUserName] = useState('');
-  const [prefInput, setPrefInput] = useState([]);
+  const [errorMsg, setErrorMsg] = useState(null);
+  const groupIDForm = useRef(null);
 
   async function verifyGroup(e) {
     e.preventDefault();
-    const candidateGroupID = document.querySelector('#groupIDForm').value;
-    const response = await fetch(`/api/groupname/${candidateGroupID}`);
-    const parsedRes = await response.json();
-    if (!parsedRes.groupName) setGroupVerified(false);
-    else {
-      setGroupVerified(true);
-      setGroupStatus(parsedRes);
+    const candidateGroupID = groupIDForm.current.value;
+    try {
+      const response = await fetch(`/api/groupname/${candidateGroupID}`);
+      const parsedRes = await response.json();
+      if (!parsedRes.groupName) setGroupVerified(false);
+      else {
+        setGroupVerified(true);
+        setGroupStatus(parsedRes);
+      }
+    } catch {
+      setErrorMsg('Error: Could not fetch group from server');
     }
   }
 
@@ -42,10 +45,10 @@ const UserLanding = (props) => {
       <div className="results">
         <div>RESULTS</div>
         <table>
-          {/* <tr>
+          <tr>
             <td>Name</td>
             <td colSpan="1000">Preferences</td>
-          </tr> */}
+          </tr>
           {resultTableRows}
         </table>
       </div>
@@ -63,54 +66,52 @@ const UserLanding = (props) => {
       );
     } else if (groupStatus && groupStatus.status === 'missing') {
       return (
-        <div className="group-verified-msg">
+        <CenterFlex>
           <div>
-            <strong>
-              Group "{groupStatus.groupName}" verified - pending results!
-            </strong>
+            <strong>Group "{groupStatus.groupName}" verified - pending results!</strong>
           </div>
           <br />
-          If you have not yet sent in your preferences - please select your name
-          below.
-          <select
+          If you have not yet sent in your preferences - please select your name below.
+          <Select
             name="names"
-            id="nameSelector"
+            style={{ marginTop: '1em' }}
             onChange={(e) => setUserName(e.target.value)}
           >
             <option value="">Choose Your Name</option>
-            {groupStatus.missing.map((name) => (
-              <option value={name}>{name}</option>
+            {groupStatus.missing.map((name, idx) => (
+              <option value={name} key={idx}>
+                {name}
+              </option>
             ))}
-          </select>
+          </Select>
           <br />
           <NavLink
             to={{
               pathname: '/prefselector',
               state: {
                 userName,
-                prefInputs: groupStatus.names.filter(
-                  (name) => name !== userName
-                ),
+                prefInputs: groupStatus.names.filter((name) => name !== userName),
                 groupName: groupStatus.groupName,
               },
             }}
           >
             <button className={!userName ? 'hide' : undefined}>Confirm</button>
           </NavLink>
-        </div>
+        </CenterFlex>
       );
     } else return;
   }
 
   return (
-    <div className="user-landing">
+    <Container>
       <h1>Welcome to the Ultimate Matchmaker</h1>
       <label htmlFor="groupIDForm">Input Group ID </label>
-      <form id="groupIDVerification" onSubmit={verifyGroup}>
-        <input id="groupIDForm" name="groupIDForm"></input>
+      <form style={{ width: '50%' }} onSubmit={verifyGroup}>
+        <Form name="groupIDForm" ref={groupIDForm} />
       </form>
       {groupVerificationMsg()}
-    </div>
+      {errorMsg}
+    </Container>
   );
 };
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useRef } from 'react';
 import GroupStatus from './GroupStatus';
 import styled from 'styled-components';
-import { Container, Form, Button, CenterFlex } from '../styles/sharedStyles';
+import { Container, Form, Button, CenterFlex } from '../styles/styledComponents';
 
 const AdminDashboard = styled(Container)`
   margin-top: 5em;

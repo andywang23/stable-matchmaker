@@ -9,14 +9,8 @@ html {
 
 body {
   background-size: cover;
-  /* background-color: #081229; */
   background-image: url('../assets/bg-01.jpg');
   font-family: 'Ubuntu', sans-serif;
-}
-
-.main-login-container {
-  width: fit-content;
-  display: flex;
 }
 
 table {
@@ -162,62 +156,8 @@ main {
   margin-bottom: 22px;
 }
 
-.hide {
-  visibility: hidden;
-}
-
 input:focus {
   outline: none;
-}
-
-.main-app-container,
-.admin-login,
-.admin-dashboard,
-.user-landing {
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: rgba(238, 229, 229, 0.6);
-  width: 700px;
-  border-radius: 10px;
-  padding-bottom: 15px;
-}
-
-.main-app-container {
-  height: 200px;
-}
-
-.admin-login {
-  height: 370px;
-}
-
-.role-btn-container {
-  display: flex;
-  width: 100%;
-  justify-content: space-around;
-}
-
-.role-btn-container button {
-  width: 155px;
-}
-
-.invalid {
-  background-color: rgb(240, 200, 250);
-}
-
-.valid {
-  background-color: rgb(102, 10, 105);
-  cursor: pointer;
-  color: white;
-}
-
-#submit-group-btn,
-.group-verified-msg,
-#nameSelector {
-  /* just replace with margin-top: 1em */
-  margin-top: 12px;
 }
 
 .completed-pref-forms {

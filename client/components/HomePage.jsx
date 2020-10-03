@@ -1,21 +1,32 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Button } from '../styles/sharedStyles';
+import { Button, Container } from '../styles/styledComponents';
+import styled from 'styled-components';
 
-const HomePage = (props) => {
+const RoleButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+`;
+
+const RoleButton = styled(Button)`
+  width: 155px;
+`;
+
+const HomePage = () => {
   return (
-    <div className="main-app-container">
+    <Container>
       <h1>Welcome to the Ultimate Matchmaker</h1>
       <h4>Select Your Role Below</h4>
-      <div className="role-btn-container">
+      <RoleButtonContainer>
         <NavLink to="/user">
-          <Button>User</Button>
+          <RoleButton>User</RoleButton>
         </NavLink>
         <NavLink to="/admin">
-          <Button>Matchmaker</Button>
+          <RoleButton>Matchmaker</RoleButton>
         </NavLink>
-      </div>
-    </div>
+      </RoleButtonContainer>
+    </Container>
   );
 };
 

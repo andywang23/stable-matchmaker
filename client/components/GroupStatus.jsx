@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import loadingIcon from '../assets/loading-icon.gif';
-import { CenterFlex, Select } from '../styles/sharedStyles';
+import { CenterFlex, Select } from '../styles/styledComponents';
 import styled from 'styled-components';
 
 const AlgoButton = styled.div`

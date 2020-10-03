@@ -6,7 +6,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgba(238, 229, 229, 0.6);
+  background-color: rgba(238, 229, 229, 0.45);
   width: 700px;
   border-radius: 10px;
   padding-bottom: 15px;
@@ -28,7 +28,7 @@ export const Button = styled.button`
   text-decoration: none;
   border-radius: 8px;
   font-family: 'Ubuntu', sans-serif;
-  font-weight: 500;
+  font-weight: 600;
   background-color: rgba(238, 229, 229, 0.465);
   cursor: pointer;
   color: black;
@@ -61,4 +61,30 @@ export const Select = styled.select`
   &:active {
     outline: 0;
   }
+`;
+
+export const LoginInput = styled(Form)`
+  width: 265px;
+  height: 37px;
+  display: block;
+`;
+
+const LoginButton = styled.input`
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 7px;
+  border-radius: 8px;
+  color: black;
+  width: 100%;
+  font-family: 'Ubuntu', sans-serif;
+`;
+
+export const ValidLoginButton = styled(LoginButton)`
+  background-color: rgb(102, 10, 105);
+  cursor: pointer;
+  color: white;
+`;
+
+export const InvalidLoginButton = styled(LoginButton)`
+  background-color: rgb(240, 200, 250);
 `;
