@@ -13,6 +13,8 @@ Before creating a group to match, administrators/matchmakers are required to reg
 Users can log in with their unique key (no need to register) and input their order-ranked preferences in a drag-and-drop form as demonstrated below.
 <img src="https://i.imgur.com/QZOP8Z5.gif"/>
 
+Once all user preference lists are submitted, administrators can then generate stable matches by pressing a cheesy red button as seen below and that's it!
+<img src="https://i.imgur.com/IEGCxCA.gif"/>
 
 
 ## Test
