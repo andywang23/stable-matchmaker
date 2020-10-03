@@ -1,6 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Container, Form, CenterFlex, Select, Button } from '../styles/styledComponents';
+import {
+  Container,
+  Form,
+  CenterFlex,
+  Select,
+  Button,
+  TableCell,
+  TableHead,
+  Table,
+} from '../styles/styledComponents';
 
 const UserLanding = () => {
   //input form for groupID
@@ -35,22 +44,22 @@ const UserLanding = () => {
     for (const person in resultTable) {
       resultTableRows.push(
         <tr>
-          <td>{person}</td>
-
-          <td>{resultTable[person]}</td>
+          <TableCell>{person}</TableCell>
+          <TableCell>{resultTable[person]}</TableCell>
         </tr>
       );
     }
     return (
       <div className="results">
-        <div>RESULTS</div>
-        <table>
-          <tr>
-            <td>Name</td>
-            <td colSpan="1000">Preferences</td>
-          </tr>
+        <Table>
+          <TableHead>
+            <tr>
+              <TableCell>Name</TableCell>
+              <TableCell colSpan="1000">Preferences</TableCell>
+            </tr>
+          </TableHead>
           {resultTableRows}
-        </table>
+        </Table>
       </div>
     );
   }

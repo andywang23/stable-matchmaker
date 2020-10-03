@@ -20,6 +20,9 @@ export const Form = styled.input`
   margin-top: 0.4rem;
   border: rgb(219, 219, 219) solid 1px;
   width: 100%;
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const Button = styled.button`
@@ -77,6 +80,9 @@ const LoginButton = styled.input`
   color: black;
   width: 100%;
   font-family: 'Ubuntu', sans-serif;
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const ValidLoginButton = styled(LoginButton)`
@@ -94,17 +100,15 @@ export const Table = styled.table`
   background: rgba(255, 255, 255, 50%);
   border-radius: 0.25em;
   padding: 0.75em;
-  border-bottom: 1px grey solid;
+  border-radius: 0.25em;
 `;
 
 export const TableCell = styled.td`
-  padding: 0.75em;
-  border-bottom: 1px grey solid;
+  padding: 0.8em;
 `;
 
 export const TableHead = styled.thead`
   background-color: grey;
   color: white;
-  border-bottom: 1px solid #364043;
-  padding: 0.15em;
+  padding: 0.8em;
 `;

@@ -7,7 +7,6 @@ import { Container, Form, Button, CenterFlex } from '../styles/styledComponents'
 const AdminDashboard = styled(Container)`
   margin-top: 5em;
   height: fit-content;
-  min-height: 300px;
 `;
 
 const InputForm = styled(Form)`
@@ -63,7 +62,7 @@ const AdminMain = ({ userName }) => {
 
   return (
     <>
-      <AdminDashboard>
+      <AdminDashboard style={{ minHeight: '355px' }}>
         <h3>Hello, {userName}</h3>
         <div>
           <GroupStatus userName={userName} />

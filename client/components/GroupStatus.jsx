@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import loadingIcon from '../assets/loading-icon.gif';
-import { CenterFlex, Select, Table, TableCell } from '../styles/styledComponents';
+import { CenterFlex, Select, Table, TableCell, TableHead } from '../styles/styledComponents';
 import styled from 'styled-components';
 
 const AlgoButton = styled.div`
@@ -73,9 +73,9 @@ const GroupStatus = ({ userName }) => {
     for (const person in submittedLists) {
       prefTableRows.push(
         <tr>
-          <td>{person}</td>
+          <TableCell>{person}</TableCell>
           {submittedLists[person].map((pref) => (
-            <td>{pref}</td>
+            <TableCell>{pref}</TableCell>
           ))}
         </tr>
       );
@@ -98,15 +98,15 @@ const GroupStatus = ({ userName }) => {
         <div style={{ marginBottom: '1em' }}>
           <strong>Completed Preference Forms: </strong>
         </div>
-        <table>
-          <thead>
+        <Table>
+          <TableHead>
             <tr>
-              <td>Name</td>
-              <td colSpan="1000">Preferences</td>
+              <TableCell>Name</TableCell>
+              <TableCell colSpan="1000">Preferences</TableCell>
             </tr>
-          </thead>
+          </TableHead>
           {prefTableRows}
-        </table>
+        </Table>
       </CenterFlex>
     );
   }
@@ -117,23 +117,21 @@ const GroupStatus = ({ userName }) => {
     for (const person in resultTable) {
       resultTableRows.push(
         <tr>
-          <td>{person}</td>
-          <td>{resultTable[person]}</td>
+          <TableCell>{person}</TableCell>
+          <TableCell>{resultTable[person]}</TableCell>
         </tr>
       );
     }
     return (
-      <CenterFlex>
-        <Table>
-          <TableHead>
-            <tr>
-              <TableCell>Name</TableCell>
-              <TableCell colSpan="1000">Partner</TableCell>
-            </tr>
-          </TableHead>
-          {resultTableRows}
-        </Table>
-      </CenterFlex>
+      <Table>
+        <TableHead>
+          <tr>
+            <TableCell>Name</TableCell>
+            <TableCell colSpan="1000">Partner</TableCell>
+          </tr>
+        </TableHead>
+        {resultTableRows}
+      </Table>
     );
   }
 
