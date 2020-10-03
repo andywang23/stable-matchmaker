@@ -1,31 +1,32 @@
 import React from 'react';
-
 import { useState, useEffect } from 'react';
 import { fromPairs } from 'lodash';
 import loadingIcon from '../assets/loading-icon.gif';
+import { CenterFlex } from '../styles/sharedStyles';
 
-const GroupStatus = (props) => {
-  const { userName } = props;
-
+const GroupStatus = ({ userName }) => {
   const [groups, setGroups] = useState([]);
   const [groupStatus, setGroupStatus] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [algoLoading, setAlgoLoading] = useState(false);
 
   useEffect(() => {
-    getGroups();
+    //get groups
+    (async () => {
+      try {
+        const res = await fetch(`/api/groups/${userName}`);
+        const parsedRes = await res.json();
+        setGroups(parsedRes);
+      } catch {
+        setErrorMsg('Error: Could not get groups');
+      }
+    })();
   }, []);
-
-  function getGroups() {
-    fetch(`/api/groups/${userName}`)
-      .then((res) => res.json())
-      .then((resArr) => setGroups(resArr));
-  }
 
   async function handleSelectChange(e) {
     if (!e.target.value) setGroupStatus('');
-    const response = await fetch(`/api/groupstatus/${e.target.value}`);
-    const parsedRes = await response.json();
+    const res = await fetch(`/api/groupstatus/${e.target.value}`);
+    const parsedRes = await res.json();
     setGroupStatus(parsedRes);
   }
 
@@ -59,7 +60,7 @@ const GroupStatus = (props) => {
       );
     }
     return (
-      <div className="results">
+      <CenterFlex>
         <div>
           <strong>Group Invite ID:</strong> {groupStatus.id}
         </div>
@@ -85,7 +86,7 @@ const GroupStatus = (props) => {
           </thead>
           {prefTableRows}
         </table>
-      </div>
+      </CenterFlex>
     );
   }
 
@@ -102,8 +103,7 @@ const GroupStatus = (props) => {
       );
     }
     return (
-      <div className="results">
-        <div>RESULTS</div>
+      <CenterFlex>
         <table>
           <thead>
             <tr>
@@ -113,7 +113,7 @@ const GroupStatus = (props) => {
           </thead>
           {resultTableRows}
         </table>
-      </div>
+      </CenterFlex>
     );
   }
 
@@ -146,12 +146,12 @@ const GroupStatus = (props) => {
         });
         return groupStatusDisplayRouter();
       } catch {
-        setErrorMsg('Could not access server');
+        setErrorMsg('Error: Could not access server');
       }
     }
 
     return (
-      <div className="center">
+      <>
         {algoLoading ? (
           <img id="loading" src={loadingIcon}></img>
         ) : (
@@ -159,12 +159,12 @@ const GroupStatus = (props) => {
             <strong>ALGO TIME</strong>
           </div>
         )}
-      </div>
+      </>
     );
   }
 
   return (
-    <div className="group-status-container">
+    <CenterFlex>
       <h4>Group Status</h4>
       <select name="groups" id="groupSelector" onChange={handleSelectChange}>
         <option value="">Choose Available Groups</option>
@@ -173,10 +173,7 @@ const GroupStatus = (props) => {
         ))}
       </select>
       {groupStatusDisplayRouter()}
-      <br />
-      <br />
-      <br />
-    </div>
+    </CenterFlex>
   );
 };
 

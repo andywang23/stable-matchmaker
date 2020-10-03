@@ -222,10 +222,6 @@ input:focus {
   height: 370px;
 }
 
-.admin-dashboard {
-  margin-top: 5em;
-}
-
 .role-btn-container {
   display: flex;
   width: 100%;
@@ -235,12 +231,6 @@ input:focus {
 .role-btn-container button {
   width: 155px;
 }
-
-.admin-dashboard {
-  height: fit-content;
-  min-height: 300px;
-}
-
 .username,
 .password,
 #personName,
@@ -288,18 +278,10 @@ input:focus {
   color: white;
 }
 
-.results,
-.group-status-container,
-.group-verified-msg {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 #submit-group-btn,
 .group-verified-msg,
 #nameSelector {
+  /* just replace with margin-top: 1em */
   margin-top: 12px;
 }
 
@@ -309,20 +291,6 @@ ul {
 
 .completed-pref-forms {
   margin-bottom: 1em;
-}
-
-button {
-  padding: 0.5em 3em;
-  border: 0.16em solid #ffffff;
-  text-decoration: none;
-  border-radius: 8px;
-  font-family: 'Ubuntu', sans-serif;
-  font-weight: 500;
-  background-color: rgba(238, 229, 229, 0.465);
-  cursor: pointer;
-  color: black;
-  text-align: center;
-  transition: all 0.15s;
 }
 
 button:hover {
@@ -347,11 +315,6 @@ select:active {
 
 #groupIDVerification {
   width: 50%;
-}
-
-.group-creator-container {
-  display: flex;
-  flex-direction: column;
 }
 
 thead {

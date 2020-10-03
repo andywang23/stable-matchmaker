@@ -1,8 +1,8 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import GroupStatus from './GroupStatus';
 import styled from 'styled-components';
-import { Container } from '../styles/sharedstyles';
+import { Container, Form, Button, CenterFlex } from '../styles/sharedStyles';
 
 const AdminDashboard = styled(Container)`
   margin-top: 5em;
@@ -10,19 +10,27 @@ const AdminDashboard = styled(Container)`
   min-height: 300px;
 `;
 
-const AdminMain = (props) => {
-  const { userName } = props;
+const InputForm = styled(Form)`
+  height: 27px;
+  margin-bottom: 1.3em;
+`;
+
+const SubmitGroupButton = styled(Button)`
+  margin-top: 1em;
+`;
+
+const AdminMain = ({ userName }) => {
   const [people, setPeople] = useState([]);
   const [groupName, setGroupName] = useState('');
   const [groupSubmitRes, setGroupSubmitRes] = useState('');
+  const personNameInput = useRef(null);
 
   //TO DO: need to account for duplicate names and spaces!
   function handleSubmitPerson(e) {
     e.preventDefault();
-    const textForm = document.querySelector('#personName');
-    let newPeople = people.concat([textForm.value]);
-    setPeople(newPeople);
-    textForm.value = '';
+    const newPerson = personNameInput.current.value;
+    setPeople((oldPeople) => [...oldPeople, newPerson]);
+    personNameInput.current.value = '';
   }
 
   async function handleSubmitGroup(e) {
@@ -64,34 +72,30 @@ const AdminMain = (props) => {
 
       <AdminDashboard>
         <h4>Create Group</h4>
-        <div className="group-creator-container">
+        <CenterFlex>
           <center>
             <label htmlFor="groupName">Group Name</label>
           </center>
-          <input id="groupName" name="groupName" onChange={handleGroupNameChange}></input>
+          <InputForm name="groupName" onChange={handleGroupNameChange}></InputForm>
           <br />
           <form onSubmit={handleSubmitPerson}>
             <center>
               <label htmlFor="personName">Input Individual Names (Enter to Add)</label>
             </center>
-            <input id="personName" name="personName"></input>
+            <InputForm name="personName" ref={(node) => (personNameInput.current = node)} />
           </form>
-        </div>
+        </CenterFlex>
 
-        <div className="group-status-container">
+        <CenterFlex>
           People Added (Click to Delete)
-          <br />
-          <br />
           {people.map((person, idx) => (
             <li key={idx} onClick={handleDeleteGroupMember}>
               {person}
             </li>
           ))}
-          <button id="submit-group-btn" onClick={handleSubmitGroup}>
-            Submit Full Group
-          </button>
-          <div className="group-submit-msg">{groupSubmitRes}</div>
-        </div>
+          <SubmitGroupButton onClick={handleSubmitGroup}>Submit Full Group</SubmitGroupButton>
+          <div>{groupSubmitRes}</div>
+        </CenterFlex>
       </AdminDashboard>
     </>
   );
