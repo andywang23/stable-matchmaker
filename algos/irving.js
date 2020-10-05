@@ -27,7 +27,7 @@ function getStableTable(preferenceTable) {
 
   while (Object.values(proposalTable).includes(null) && !impossibleMatchCondition) {
     for (const person in prefTable) {
-      const personsTopPref = prefTable[person][0];
+      const [personsTopPref] = prefTable[person];
       const targetPrefList = prefTable[personsTopPref];
 
       if (!proposalTable[personsTopPref]) proposalTable[personsTopPref] = person;

@@ -17,7 +17,7 @@ function stableMarriage(malePreference, femalePreference) {
     //each male proposes to female he prefers most
     //each female is temp engaged to most preferred suitor and rejects all other proposals
     for (const male in malePref) {
-      const maleTopPref = malePref[male][0];
+      const [maleTopPref] = malePref[male];
       const targetFemalePrefList = femalePref[maleTopPref];
 
       //if female has no temp proposal, then create one
