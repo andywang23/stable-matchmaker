@@ -25,14 +25,14 @@ const AdminMain = ({ userName }) => {
   const personNameInput = useRef(null);
 
   //TO DO: need to account for duplicate names and spaces!
-  function handleSubmitPerson(e) {
+  const handleSubmitPerson = (e) => {
     e.preventDefault();
     const newPerson = personNameInput.current.value;
     setPeople((oldPeople) => [...oldPeople, newPerson]);
     personNameInput.current.value = '';
-  }
+  };
 
-  async function handleSubmitGroup(e) {
+  const handleSubmitGroup = async (e) => {
     e.preventDefault();
     if (people.length % 2) return setGroupSubmitRes('Need even number of people');
     const body = { admin: userName, groupName: groupName, names: people };
@@ -48,17 +48,17 @@ const AdminMain = ({ userName }) => {
 
     if (parsedRes && parsedRes.err) setGroupSubmitRes('Group name already exists!');
     else setGroupSubmitRes('Sucessfully added group!');
-  }
+  };
 
-  function handleGroupNameChange(e) {
+  const handleGroupNameChange = (e) => {
     setGroupName(e.target.value);
-  }
+  };
 
-  function handleDeleteGroupMember(e) {
+  const handleDeleteGroupMember = (e) => {
     e.target.remove();
     const newPeople = people.filter((person) => person !== e.target.value);
     setPeople(newPeople);
-  }
+  };
 
   return (
     <>
@@ -76,8 +76,8 @@ const AdminMain = ({ userName }) => {
             <label htmlFor="groupName">Group Name</label>
           </center>
           <InputForm name="groupName" onChange={handleGroupNameChange}></InputForm>
-          <br />
-          <form onSubmit={handleSubmitPerson}>
+
+          <form onSubmit={handleSubmitPerson} style={{ marginTop: '1em' }}>
             <center>
               <label htmlFor="personName">Input Individual Names (Enter to Add)</label>
             </center>

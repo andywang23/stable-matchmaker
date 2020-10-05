@@ -1,28 +1,17 @@
 const path = require('path');
-const {
-  RoomieGroup,
-  MarriageGroup,
-  Admin,
-} = require('../db/models/stable-match-models');
+const { RoomieGroup, MarriageGroup, Admin } = require('../db/models/stable-match-models');
 const { group } = require('console');
-const models = require(path.resolve(
-  __dirname,
-  './../db/models/stable-match-models'
-));
+const models = require(path.resolve(__dirname, './../db/models/stable-match-models'));
 
 const dbController = {};
 
 dbController.addMarriageGroup = (req, res, next) => {
   //admin creates group with their name, groupName, and array of candidate names
   const { groupName, admin, proposerNames, proposeeNames } = req.body;
-  MarriageGroup.create(
-    { groupName, proposerNames, proposerNames, admin },
-    (err, data) => {
-      if (err)
-        return next({ log: 'invalid creation query in addMarriageGroup' });
-      return next();
-    }
-  );
+  MarriageGroup.create({ groupName, proposerNames, proposerNames, admin }, (err, data) => {
+    if (err) return next({ log: 'invalid creation query in addMarriageGroup' });
+    return next();
+  });
 };
 dbController.addRoomieGroup = (req, res, next) => {
   //admin creates group with their name, groupName, and array of candidate names
@@ -45,10 +34,7 @@ dbController.addRoomieGroup = (req, res, next) => {
             { username: admin },
             { groupsCreated: adminGroups },
             (err, data) => {
-              if (err)
-                throw Error(
-                  'invalid query in addRoomiesGroup findOneAndUpdate'
-                );
+              if (err) throw Error('invalid query in addRoomiesGroup findOneAndUpdate');
               return next();
             }
           );
@@ -74,8 +60,7 @@ dbController.addRoomiePrefList = (req, res, next) => {
   const { groupName, personName, prefArray } = req.body;
   let prefTable;
   RoomieGroup.findOne({ groupName }, (err, data) => {
-    if (!data)
-      return next({ log: 'invalid update query in addRoomiePrefList' });
+    if (!data) return next({ log: 'invalid update query in addRoomiePrefList' });
     prefTable = JSON.parse(data.prefTable);
     prefTable[personName] = prefArray;
 
@@ -83,8 +68,7 @@ dbController.addRoomiePrefList = (req, res, next) => {
       { groupName },
       { prefTable: JSON.stringify(prefTable) },
       (err, data) => {
-        if (err)
-          return next({ log: 'invalid update query in addRoomiePrefList' });
+        if (err) return next({ log: 'invalid update query in addRoomiePrefList' });
         else return next();
       }
     );
@@ -110,16 +94,14 @@ dbController.addResult = (req, res, next) => {
 
   if (algoUsed === 'stableRoomies') {
     RoomieGroup.findOneAndUpdate({ groupName }, { result }, (err, data) => {
-      if (err)
-        return next({ log: 'invalid find query in addResult/stableRoomies' });
+      if (err) return next({ log: 'invalid find query in addResult/stableRoomies' });
       else return next();
     });
   }
 
   if (algoUsed === 'stableMarriage') {
     MarriageGroup.findOneAndUpdate({ groupName }, { result }, (err, data) => {
-      if (err)
-        return next({ log: 'invalid find query in addResult/stableMarriage' });
+      if (err) return next({ log: 'invalid find query in addResult/stableMarriage' });
       else return next();
     });
   }
@@ -138,8 +120,7 @@ dbController.getGroups = (req, res, next) => {
       .where('_id')
       .in(groupIDs)
       .exec((err, records) => {
-        if (err || !records)
-          return next({ log: 'invalid find query in getGroups' });
+        if (err || !records) return next({ log: 'invalid find query in getGroups' });
         records.forEach((record) => groupNames.push(record.groupName));
         res.locals.groupsCreated = groupNames;
         return next();
@@ -164,9 +145,7 @@ dbController.getGroupStatus = (req, res, next) => {
       res.locals.id = data._id;
       res.locals.results = result;
     } else if (numSubmittedResults < names.length) {
-      const missing = names.filter(
-        (name) => !submittedPeopleArr.includes(name)
-      );
+      const missing = names.filter((name) => !submittedPeopleArr.includes(name));
       res.locals.status = 'missing';
       res.locals.id = data._id;
       res.locals.names = names;
@@ -201,9 +180,7 @@ dbController.getGroupStatusbyID = (req, res, next) => {
           res.locals.status = 'results';
           res.locals.results = result;
         } else if (numSubmittedResults < names.length) {
-          const missing = names.filter(
-            (name) => !submittedPeopleArr.includes(name)
-          );
+          const missing = names.filter((name) => !submittedPeopleArr.includes(name));
           res.locals.status = 'missing';
           res.locals.names = names;
           res.locals.missing = missing;

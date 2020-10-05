@@ -22,7 +22,7 @@ const UserLanding = () => {
   const [errorMsg, setErrorMsg] = useState(null);
   const groupIDForm = useRef(null);
 
-  async function verifyGroup(e) {
+  const verifyGroup = async (e) => {
     e.preventDefault();
     const candidateGroupID = groupIDForm.current.value;
     try {
@@ -36,9 +36,9 @@ const UserLanding = () => {
     } catch {
       setErrorMsg('Error: Could not fetch group from server');
     }
-  }
+  };
 
-  function generateResultInfo() {
+  const generateResultInfo = () => {
     const resultTable = groupStatus.results;
     const resultTableRows = [];
     for (const person in resultTable) {
@@ -62,9 +62,9 @@ const UserLanding = () => {
         </Table>
       </div>
     );
-  }
+  };
 
-  function groupVerificationMsg() {
+  const groupVerificationMsg = () => {
     if (groupVerified === false) return <div>Incorrect Group ID</div>;
     else if (groupStatus && groupStatus.status === 'results') {
       return (
@@ -79,7 +79,6 @@ const UserLanding = () => {
           <div>
             <strong>Group "{groupStatus.groupName}" verified - pending results!</strong>
           </div>
-          <br />
           If you have not yet sent in your preferences - please select your name below.
           <Select
             name="names"
@@ -93,7 +92,6 @@ const UserLanding = () => {
               </option>
             ))}
           </Select>
-          <br />
           <NavLink
             to={{
               pathname: '/prefselector',
@@ -114,7 +112,7 @@ const UserLanding = () => {
           All preferences have been submitted - administrator has yet to release results
         </CenterFlex>
       );
-  }
+  };
 
   return (
     <Container>

@@ -1,23 +1,14 @@
 const path = require('path');
 
-const stableMarriage = require(path.resolve(
-  __dirname,
-  './../../algos/gale-shapley'
-));
+const stableMarriage = require(path.resolve(__dirname, './../../algos/gale-shapley'));
 const stableRoomies = require(path.resolve(__dirname, './../../algos/irving'));
-const forceMatch = require(path.resolve(
-  __dirname,
-  './../../algos/force-match'
-));
+const forceMatch = require(path.resolve(__dirname, './../../algos/force-match'));
 
 const algoController = {};
 
 algoController.stableMarriage = (req, res, next) => {
   const prefTableInput = req.body.prefTable;
-  const matchTable = stableMarriage(
-    prefTableInput.malePref,
-    prefTableInput.femalePref
-  );
+  const matchTable = stableMarriage(prefTableInput.malePref, prefTableInput.femalePref);
 
   res.locals.algoUsed = 'stableMarriage';
   res.locals.result = matchTable;

@@ -85,17 +85,18 @@ const GroupStatus = ({ userName }) => {
         <div>
           <strong>Group Invite ID:</strong> {groupStatus.id}
         </div>
-        <br />
-        <div>
+
+        <div style={{ marginTop: '1em' }}>
           <strong>Missing Submissions From:</strong>
         </div>
+
         <ul style={{ padding: 0 }}>
           {groupStatus.missing.map((person) => (
             <li>{person}</li>
           ))}
         </ul>
-        <br />
-        <div style={{ marginBottom: '1em' }}>
+
+        <div style={{ marginBottom: '1em', marginTop: '0.7em' }}>
           <strong>Completed Preference Forms: </strong>
         </div>
         <Table>

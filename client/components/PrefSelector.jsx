@@ -127,7 +127,7 @@ const PrefSelector = ({ location }) => {
     };
   }, []);
 
-  async function handleSubmitPref() {
+  const handleSubmitPref = async () => {
     const body = { personName: userName, groupName, prefArray: prefList };
     try {
       await fetch('/api/groups', {
@@ -142,7 +142,7 @@ const PrefSelector = ({ location }) => {
     } catch {
       setSubmitStatus('Error in submitting preferences');
     }
-  }
+  };
 
   return (
     <main>
