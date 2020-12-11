@@ -17,30 +17,34 @@ class AdminRegistration extends React.Component {
     };
   }
 
-  handleInputChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleInputChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
 
     if (this.state.usernameinput.length && this.state.passwordinput.length)
       this.setState({ validSubmissionBtn: true });
     else this.setState({ validSubmissionBtn: false });
   };
 
-  handleSubmit = async (event) => {
-    event.preventDefault();
+  handleSubmit = async (e) => {
+    e.preventDefault();
     const username = this.state.usernameinput;
     const password = this.state.passwordinput;
     const body = { username, password };
 
-    const response = await fetch('/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-    const parsedRes = await response.json();
-    if (parsedRes.err) this.setState({ responseMsg: 'Username already exists!' });
-    else this.setState({ responseMsg: 'Admin successfully created!' });
+    try {
+      const response = await fetch('/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+      const parsedRes = await response.json();
+      if (parsedRes.err) this.setState({ responseMsg: 'Username already exists!' });
+      else this.setState({ responseMsg: 'Admin successfully created!' });
+    } catch {
+      this.setState({ responseMsg: 'Network Error' });
+    }
   };
 
   render() {

@@ -187,8 +187,10 @@ const GroupStatus = ({ userName }) => {
       <h4>Group Status</h4>
       <Select name="groups" onChange={handleSelectChange}>
         <option value="">Choose Available Groups</option>
-        {groups.map((group) => (
-          <option value={group}>{group}</option>
+        {groups.map((group, idx) => (
+          <option key={idx} value={group}>
+            {group}
+          </option>
         ))}
       </Select>
       {groupStatusDisplayRouter()}

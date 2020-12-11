@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useRef } from 'react';
+import { v4 as uuid } from 'uuid';
 import GroupStatus from './GroupStatus';
 import styled from 'styled-components';
 import { Container, Form, Button, CenterFlex } from '../styles/styledComponents';
@@ -28,7 +29,7 @@ const AdminMain = ({ userName }) => {
   const handleSubmitPerson = (e) => {
     e.preventDefault();
     const newPerson = personNameInput.current.value;
-    setPeople((oldPeople) => [...oldPeople, newPerson]);
+    setPeople((prevPeopleArr) => [...prevPeopleArr, newPerson]);
     personNameInput.current.value = '';
   };
 
@@ -37,26 +38,27 @@ const AdminMain = ({ userName }) => {
     if (people.length % 2) return setGroupSubmitRes('Need even number of people');
     const body = { admin: userName, groupName: groupName, names: people };
 
-    const response = await fetch('/api/groups', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
-    const parsedRes = await response.json();
+    try {
+      const response = await fetch('/api/groups', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+      const parsedRes = await response.json();
 
-    if (parsedRes && parsedRes.err) setGroupSubmitRes('Group name already exists!');
-    else setGroupSubmitRes('Sucessfully added group!');
+      if (parsedRes && parsedRes.err) setGroupSubmitRes('Group name already exists!');
+      else setGroupSubmitRes('Sucessfully added group!');
+    } catch {
+      setGroupSubmitRes('Network Error');
+    }
   };
 
-  const handleGroupNameChange = (e) => {
-    setGroupName(e.target.value);
-  };
+  const handleGroupNameChange = (e) => setGroupName(e.target.value);
 
   const handleDeleteGroupMember = (e) => {
-    e.target.remove();
-    const newPeople = people.filter((person) => person !== e.target.value);
+    const newPeople = people.filter((person) => person !== e.target.innerText);
     setPeople(newPeople);
   };
 
@@ -72,26 +74,27 @@ const AdminMain = ({ userName }) => {
       <AdminDashboard>
         <h4>Create Group</h4>
         <CenterFlex>
-          <center>
-            <label htmlFor="groupName">Group Name</label>
-          </center>
+          <label htmlFor="groupName">Group Name</label>
+
           <InputForm name="groupName" onChange={handleGroupNameChange}></InputForm>
 
           <form onSubmit={handleSubmitPerson} style={{ marginTop: '1em' }}>
-            <center>
+            <CenterFlex>
               <label htmlFor="personName">Input Individual Names (Enter to Add)</label>
-            </center>
+            </CenterFlex>
             <InputForm name="personName" ref={(node) => (personNameInput.current = node)} />
           </form>
         </CenterFlex>
 
         <CenterFlex>
           People Added (Click to Delete)
-          {people.map((person, idx) => (
-            <li key={idx} onClick={handleDeleteGroupMember}>
-              {person}
-            </li>
-          ))}
+          <ul style={{ margin: 0 }}>
+            {people.map((person) => (
+              <li key={uuid()} onClick={handleDeleteGroupMember} style={{ margin: 0 }}>
+                {person}
+              </li>
+            ))}
+          </ul>
           <SubmitGroupButton onClick={handleSubmitGroup}>Submit Full Group</SubmitGroupButton>
           <div>{groupSubmitRes}</div>
         </CenterFlex>

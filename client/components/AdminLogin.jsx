@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import AdminMain from './AdminMain';
 import { NavLink } from 'react-router-dom';
 import {
@@ -6,9 +6,10 @@ import {
   ValidLoginButton,
   InvalidLoginButton,
   Container,
+  CenterFlex,
 } from '../styles/styledComponents';
 
-class AdminLogin extends React.Component {
+class AdminLogin extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,16 +21,16 @@ class AdminLogin extends React.Component {
     };
   }
 
-  handleInputChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  handleInputChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
 
     if (this.state.usernameinput.length && this.state.passwordinput.length)
       this.setState({ validSubmissionBtn: true });
     else this.setState({ validSubmissionBtn: false });
   };
 
-  handleSubmit = async (event) => {
-    event.preventDefault();
+  handleSubmit = async (e) => {
+    e.preventDefault();
     const username = this.state.usernameinput;
     const password = this.state.passwordinput;
     const body = { username, password };
@@ -72,13 +73,13 @@ class AdminLogin extends React.Component {
             onChange={this.handleInputChange}
           />
 
-          <center>
+          <CenterFlex>
             {this.state.validSubmissionBtn ? (
               <ValidLoginButton type="submit" value="Log In" />
             ) : (
               <InvalidLoginButton type="submit" value="Log In" disabled />
             )}
-          </center>
+          </CenterFlex>
         </form>
 
         <div
