@@ -118,7 +118,7 @@ const GroupStatus = ({ userName }) => {
     const resultTableRows = [];
     for (const person in resultTable) {
       resultTableRows.push(
-        <tr>
+        <tr key={uuid()}>
           <TableCell>{person}</TableCell>
           <TableCell>{resultTable[person]}</TableCell>
         </tr>

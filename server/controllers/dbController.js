@@ -1,13 +1,11 @@
 const path = require('path');
 const { RoomieGroup, MarriageGroup, Admin } = require('../db/models/stable-match-models');
-const { group } = require('console');
-const models = require(path.resolve(__dirname, './../db/models/stable-match-models'));
 
 const dbController = {};
 
 dbController.addMarriageGroup = (req, res, next) => {
   //admin creates group with their name, groupName, and array of candidate names
-  const { groupName, admin, proposerNames, proposeeNames } = req.body;
+  const { groupName, admin, proposerNames } = req.body;
   MarriageGroup.create({ groupName, proposerNames, proposerNames, admin }, (err, data) => {
     if (err) return next({ log: 'invalid creation query in addMarriageGroup' });
     return next();
@@ -15,11 +13,9 @@ dbController.addMarriageGroup = (req, res, next) => {
 };
 dbController.addRoomieGroup = (req, res, next) => {
   //admin creates group with their name, groupName, and array of candidate names
-
   const { groupName, admin, names } = req.body;
-  let adminID;
-  let newGroupID;
-  let adminGroups;
+  let adminID, newGroupID, adminGroups;
+
   Admin.findOne({ username: admin }, (err, data) => {
     if (data) {
       adminID = data._id;
@@ -44,7 +40,6 @@ dbController.addRoomieGroup = (req, res, next) => {
   });
 };
 
-//TO COMPLETE
 dbController.addMarriagePrefList = async (req, res, next) => {
   //first detect if user is in proposer or proposee group
   const { groupName } = req.body;
@@ -194,28 +189,3 @@ dbController.getGroupStatusbyID = (req, res, next) => {
 };
 
 module.exports = dbController;
-
-const sampleRoomieGroup = {
-  body: {
-    groupName: 'testGroup',
-    admin: 'Andy',
-    names: ['Kirsten', 'Milan', 'Michael', 'Marina'],
-  },
-};
-
-// dbController.addRoomieGroup(sampleRoomieGroup);
-
-// dbController.addRoomiePrefList({
-//   body: {
-// groupName: 'testGroup',
-// personName: 'Michael',
-// prefArray: ['Kirsten', 'Milan', 'Marina'],
-//   },
-// });
-
-// dbController.addAdmin({
-//   body: {
-//     username: 'Andy',
-//     password: 'mynameisencoded',
-//   },
-// });

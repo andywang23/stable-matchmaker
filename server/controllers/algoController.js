@@ -23,7 +23,7 @@ algoController.stableRoomies = (req, res, next) => {
   res.locals.algoUsed = 'stableRoomies';
   res.locals.result = matchTable;
 
-  //algo will spit out object if stable match is found
+  //algo will spit out object if stable match is found, or a string with an error msg if not
   return typeof res.locals.result === 'string'
     ? next("{ message: 'Unable to find stable match' }")
     : next();

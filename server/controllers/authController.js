@@ -1,5 +1,4 @@
-const path = require('path');
-const { RoomieGroup, MarriageGroup, Admin } = require('../db/models/stable-match-models');
+const { Admin } = require('../db/models/stable-match-models');
 
 const authController = {};
 
