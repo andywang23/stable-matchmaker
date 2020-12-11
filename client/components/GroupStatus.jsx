@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import loadingIcon from '../assets/loading-icon.gif';
+import { v4 as uuid } from 'uuid';
 import { CenterFlex, Select, Table, TableCell, TableHead } from '../styles/styledComponents';
 import styled from 'styled-components';
 
@@ -32,7 +33,6 @@ const GroupStatus = ({ userName }) => {
   const [algoLoading, setAlgoLoading] = useState(false);
 
   useEffect(() => {
-    //get groups
     (async () => {
       try {
         const res = await fetch(`/api/groups/${userName}`);
@@ -56,6 +56,7 @@ const GroupStatus = ({ userName }) => {
       case '':
         return '';
 
+      //TODO: refactor into separate components and inject groupStatus as prop
       case 'missing':
         return generateMissingStatusInfo();
 
@@ -142,8 +143,8 @@ const GroupStatus = ({ userName }) => {
         prefTable: groupStatus.prefList,
         groupName: groupStatus.groupName,
       };
-
       setAlgoLoading(true);
+
       try {
         const results = await fetch('/algos/force-match', {
           method: 'POST',
@@ -153,9 +154,8 @@ const GroupStatus = ({ userName }) => {
           body: JSON.stringify(body),
         });
         const parsedRes = await results.json();
-        //TO BLOCK THREAD FOR FAKE LOADING ICON
+        //TO BLOCK THREAD FOR "FAKE" LOADING ICON
         await new Promise((r) => setTimeout(r, 2000));
-
         setAlgoLoading(false);
 
         setGroupStatus({
@@ -163,12 +163,12 @@ const GroupStatus = ({ userName }) => {
           status: 'results',
           results: parsedRes,
         });
+
         return groupStatusDisplayRouter();
       } catch {
         setErrorMsg('Error: Could not access server');
       }
     }
-
     return (
       <>
         {algoLoading ? (
@@ -187,8 +187,8 @@ const GroupStatus = ({ userName }) => {
       <h4>Group Status</h4>
       <Select name="groups" onChange={handleSelectChange}>
         <option value="">Choose Available Groups</option>
-        {groups.map((group, idx) => (
-          <option key={idx} value={group}>
+        {groups.map((group) => (
+          <option key={uuid()} value={group}>
             {group}
           </option>
         ))}

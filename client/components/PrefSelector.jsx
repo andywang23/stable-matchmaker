@@ -93,6 +93,7 @@ const PrefSelector = ({ location }) => {
   const listWrapperRef = useRef(null);
 
   useEffect(() => {
+    //implementing drag and drop functionality
     const inputScript = document.createElement('script');
     inputScript.append(`var numInputs = ${prefInputs.length}
     `);
@@ -104,8 +105,7 @@ const PrefSelector = ({ location }) => {
     script.async = true;
     document.body.appendChild(script);
 
-    const config = { childList: true, subtree: true };
-    const callback = function (mutationsList, observer) {
+    const observer = new MutationObserver(() => {
       const listSpots = document.querySelectorAll('.list-spot');
       let isFilled = true;
       const newPrefList = [];
@@ -114,13 +114,10 @@ const PrefSelector = ({ location }) => {
         else isFilled = false;
       });
       setPrefList(newPrefList);
-      //can def simplify this logic
-      if (isFilled) {
-        setCanSubmit(true);
-      } else setCanSubmit(false);
-    };
-    const observer = new MutationObserver(callback);
-    observer.observe(listWrapperRef.current, config);
+
+      setCanSubmit(isFilled);
+    });
+    observer.observe(listWrapperRef.current, { childList: true, subtree: true });
 
     return () => {
       document.body.removeChild(script);

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
 import {
   Container,
   Form,
@@ -43,7 +44,7 @@ const UserLanding = () => {
     const resultTableRows = [];
     for (const person in resultTable) {
       resultTableRows.push(
-        <tr>
+        <tr key={uuid()}>
           <TableCell>{person}</TableCell>
           <TableCell>{resultTable[person]}</TableCell>
         </tr>
@@ -68,10 +69,10 @@ const UserLanding = () => {
     if (groupVerified === false) return <div>Incorrect Group ID</div>;
     else if (groupStatus && groupStatus.status === 'results') {
       return (
-        <div className="group-verified-msg">
+        <CenterFlex>
           Results released!
           {generateResultInfo()}
-        </div>
+        </CenterFlex>
       );
     } else if (groupStatus && groupStatus.status === 'missing') {
       return (
@@ -86,8 +87,8 @@ const UserLanding = () => {
             onChange={(e) => setUserName(e.target.value)}
           >
             <option value="">Choose Your Name</option>
-            {groupStatus.missing.map((name, idx) => (
-              <option value={name} key={idx}>
+            {groupStatus.missing.map((name) => (
+              <option value={name} key={uuid()}>
                 {name}
               </option>
             ))}
