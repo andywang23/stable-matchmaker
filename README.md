@@ -1,8 +1,8 @@
 # Stable Matchmaker
 
-Create stable pairings based on either the Stable Roommate (Irving) or Stable Marriage (Gale-Shapley) Algorithms. Use to create optimal working groups based on order-ranked sets of preferences submitted by users. 
+Create stable pairings based on either the Stable Roommate (Irving) or Stable Marriage (Gale-Shapley) Matchmaking Algorithms. Use to create optimal working groups based on order-ranked sets of preferences submitted by users. Runs in O(n2) time.
 
-**Stable Marriage** solves for matches between two distinct groups of individuals, i.e. people in the same group cannot match with each other. Real world use case: matching incoming residents/medical students to hospitals. **Proven to always create stable matches.**
+**Stable Marriage** solves for matches between two distinct groups of individuals, i.e. people of the same group cannot be matched with one other. Used in the real world to match med school students to residency programs. **Proven to always create stable matches.**
 
 **Stable Roomates** solves for matches within a single group of individuals. **WILL NOT ALWAYS LEAD TO STABLE MATCHES** especially when the sample size grows. I have implemented a workaround to solve for "semi-stable" matches - the underlying logic being that most people will have strong opinions about their most and least favored preferences but will be largely ambivalent about folks they place in the middle. My "force-match" algorithm will randomly swap pairs of middle preferences for a random person (leaving the most and least preferred folks untouched) and will attempt to solve for a stable solution on each swap. 
 
